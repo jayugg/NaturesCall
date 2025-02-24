@@ -53,9 +53,4 @@ public static class ModConfig
     {
         return (T)Activator.CreateInstance(typeof(T), new object[] { api, config });
     }
-    
-    public static string GetConfigPath(ICoreAPI api)
-    {
-        return Path.Combine(api.GetOrCreateDataPath("ModConfig"), "BalancedThirst");
-    }
 }

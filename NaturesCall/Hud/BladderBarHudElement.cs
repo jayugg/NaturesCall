@@ -7,18 +7,18 @@ using Vintagestory.API.Datastructures;
 
 namespace NaturesCall.Hud
 {
-    public class ThirstBarHudElement : HudElement
+    public class BladderBarHudElement : HudElement
     {
         private BetterGuiElementStatbar _bladderBar;
         
         private float _lastBladderLevel;
         private float _lastBladderCapacity;
         
-        bool ShouldShowBladderBar => ConfigSystem.ConfigServer.EnableBladder;
+        bool ShouldShowBladderBar => true;
         public double[] BladderBarColor => ModGuiStyle.FromHex(ConfigSystem.ConfigClient.BladderBarColor);
         public bool FirstComposed { get; private set; }
         
-        public ThirstBarHudElement(ICoreClientAPI capi) : base(capi)
+        public BladderBarHudElement(ICoreClientAPI capi) : base(capi)
         {
             capi.Event.RegisterGameTickListener(OnGameTick, 20);
             capi.Event.RegisterGameTickListener(this.OnFlashStatbars, 2500);

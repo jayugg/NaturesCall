@@ -51,7 +51,7 @@ public class Core : ModSystem
 
     public override void StartClientSide(ICoreClientAPI capi)
     {
-        capi.Gui.RegisterDialog(new ThirstBarHudElement(capi));
+        capi.Gui.RegisterDialog(new BladderBarHudElement(capi));
         Commands.RegisterClient(capi);
         Logger.Event("Loaded client side");
     }

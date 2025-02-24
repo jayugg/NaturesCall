@@ -44,7 +44,6 @@ public partial class DrinkNetwork : ModSystem
     private void OnClientTick(float dt)
     {
         var player = _capi.World.Player;
-        if (!ConfigSystem.ConfigServer.EnableBladder) return;
         if (!(player.IsBladderOverloaded() || _capi.World.ElapsedMilliseconds - _lastPeeTime < PeeBufferms ) || !player.Entity.RightHandItemSlot.Empty) return;
         if (ConfigSystem.ConfigClient.PeeMode.IsSitting())
             _capi.Event.PushEvent(EventIds.Interaction,
@@ -69,8 +68,7 @@ public partial class DrinkNetwork : ModSystem
         }
         var world = _capi.World;
         EntityPlayer player = world.Player.Entity;
-        if (ConfigSystem.ConfigServer.EnableBladder &&
-            (player.Player.IsBladderOverloaded() || world.ElapsedMilliseconds - _lastPeeTime < PeeBufferms) && 
+        if ((player.Player.IsBladderOverloaded() || world.ElapsedMilliseconds - _lastPeeTime < PeeBufferms) && 
             !player.Controls.TriesToMove && player.Controls.CtrlKey &&
             player.RightHandItemSlot.Empty && 
             ConfigSystem.ConfigClient.PeeMode.IsStanding() ||
