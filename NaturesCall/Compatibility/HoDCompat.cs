@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using NaturesCall.Bladder;
-using Vintagestory.API.Client;
 using Vintagestory.API.Common;
 using Vintagestory.API.Server;
 
@@ -8,12 +7,17 @@ namespace NaturesCall.Compatibility;
 
 public class HoDCompat : ModSystem
 {
-    private ICoreServerAPI _serverApi;
-    private ICoreClientAPI _clientApi;
     private Dictionary<string, float> PlayerThirstLevels = new Dictionary<string, float>();
     
     public override double ExecuteOrder() => 1.03;
     public override bool ShouldLoad(ICoreAPI api) => api.ModLoader.IsModEnabled("hydrateordiedrate");
+    public static bool IsLoaded;
+    
+    public override void Start(ICoreAPI api)
+    {
+        IsLoaded = true;
+        Core.Logger.Event("Thirst mod detected: Hydrate or Diedrate");
+    }
     public override void StartServerSide(ICoreServerAPI sapi)
     {
         base.Start(sapi);
@@ -24,12 +28,13 @@ public class HoDCompat : ModSystem
     {
         foreach (var player in api.World.AllPlayers)
         {
-            if (!PlayerThirstLevels.ContainsKey(player.PlayerUID))
+            if (!PlayerThirstLevels.TryGetValue(player.PlayerUID, out float value))
             {
-                PlayerThirstLevels.Add(player.PlayerUID, 0);
+                value = 0;
+                PlayerThirstLevels.Add(player.PlayerUID, value);
             }
             float currentThirst = player.Entity.WatchedAttributes.GetFloat("currentThirst");
-            float previousThirst = PlayerThirstLevels[player.PlayerUID];
+            float previousThirst = value;
             if (currentThirst < previousThirst)
             {
                 float difference = previousThirst - currentThirst;

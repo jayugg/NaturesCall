@@ -2,7 +2,6 @@ using System;
 using System.Linq;
 using NaturesCall.Bladder;
 using NaturesCall.Config;
-using NaturesCall.Network;
 using NaturesCall.Util;
 using Vintagestory.API.Client;
 using Vintagestory.API.Common;
@@ -12,11 +11,10 @@ using Vintagestory.API.Datastructures;
 using Vintagestory.API.MathTools;
 using Vintagestory.API.Server;
 using Vintagestory.GameContent;
-using Core = NaturesCall.Core;
 
-namespace BalancedThirst.Systems;
+namespace NaturesCall.Network;
 
-public partial class DrinkNetwork
+public partial class BladderNetwork
 {
     #region Client
     

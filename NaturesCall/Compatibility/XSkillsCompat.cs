@@ -1,10 +1,9 @@
-using NaturesCall;
 using NaturesCall.Bladder;
 using NaturesCall.Config;
 using Vintagestory.API.Common;
 using XLib.XLeveling;
 
-namespace BalancedThirst.Compatibility;
+namespace NaturesCall.Compatibility;
 
 public class XSkillsCompat : ModSystem
 {

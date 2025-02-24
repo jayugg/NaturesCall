@@ -1,1 +1,4 @@
-- [Fix] Server crashing
+- [Tweak] Change default bladder bar position with HoD Installed
+- [Fix] Fix bladder bar not flashing when overloaded
+- [Fix] Urine distills to distilled water
+- [Tweak] setBladder command will now display actual bladder level after setting (level is capped at max capacity)

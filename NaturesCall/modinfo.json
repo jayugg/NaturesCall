@@ -3,10 +3,10 @@
     "modid": "naturescall",
     "name": "NaturesCall",
     "authors": [
-        "jayugg"
+        "jayu"
     ],
     "description": "Nature calls, and you must answer.",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "dependencies": {
         "game": ""
     }

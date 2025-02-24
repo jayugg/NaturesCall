@@ -109,7 +109,7 @@ public static class Commands
 
             bladderBehavior.CurrentLevel = newLevel;
 
-            return TextCommandResult.Success($"Bladder set to {newLevel} for player '{targetPlayer.PlayerName}'.");
+            return TextCommandResult.Success($"Bladder set to {bladderBehavior.CurrentLevel} for player '{targetPlayer.PlayerName}'.");
         }
         
         public static void ResetModBoosts(EntityPlayer player)

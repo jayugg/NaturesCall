@@ -17,7 +17,7 @@
       }
     },
     "distillationProps": {
-      "distilledStack": { "type": "item", "code": "naturescall:waterportion-distilled" },
+      "distilledStack": { "type": "item", "code": "game:waterportion" },
       "ratio": 0.9
     }
   },

@@ -1,0 +1,9 @@
+[
+  {
+    "file": "naturescall:itemtypes/urineportion.json",
+    "op": "replace",
+    "path": "/attributes/distillationProps/distilledStack/code",
+    "value": "balancedthirst:waterportion-distilled",
+    "dependsOn": [{ "modid": "balancedthirst" }]
+  }
+]

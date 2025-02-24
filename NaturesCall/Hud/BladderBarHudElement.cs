@@ -1,4 +1,5 @@
 using System;
+using NaturesCall.Compatibility;
 using NaturesCall.Config;
 using NaturesCall.Util;
 using Vintagestory.API.Client;
@@ -73,7 +74,7 @@ namespace NaturesCall.Hud
         {
             var bladderTree  = this.capi.World.Player.Entity.WatchedAttributes.GetTreeAttribute(Core.Modid+":bladder");
 
-            if (bladderTree == null || ShouldShowBladderBar || this._bladderBar == null) return;
+            if (bladderTree == null || this._bladderBar == null) return;
             float? currentlevel = bladderTree.TryGetFloat("currentlevel");
             float? capacity = bladderTree.TryGetFloat("capacity");
             double? ratio = currentlevel.HasValue & capacity.HasValue
@@ -92,8 +93,10 @@ namespace NaturesCall.Hud
             if (ShouldShowBladderBar)
             {
                 ElementBounds bladderBarBounds = ElementStdBounds.Statbar(EnumDialogArea.RightBottom, num * 0.41)
-                    .WithFixedAlignmentOffset(-2.0 + ConfigSystem.ConfigClient.BladderBarX,
-                        10 + ConfigSystem.ConfigClient.BladderBarY);
+                    .WithFixedAlignmentOffset(
+                        -2.0 + ConfigSystem.ConfigClient.BladderBarX,
+                        10 + ConfigSystem.ConfigClient.BladderBarY - (HoDCompat.IsLoaded ? 7 : 0)
+                        );
                 bladderBarBounds.WithFixedHeight(6.0);
 
                 var compo2 = capi.Gui.CreateCompo("bladderbar", parentBounds.FlatCopy().FixedGrow(0.0, 20.0));

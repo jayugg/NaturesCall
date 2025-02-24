@@ -1,4 +1,4 @@
-namespace NaturesCall.Util;
+namespace NaturesCall.ThirstLoader;
 
 public class ThirstModLoader
 {

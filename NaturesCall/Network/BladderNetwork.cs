@@ -1,17 +1,15 @@
 using NaturesCall.Config;
 using NaturesCall.Hud;
-using NaturesCall.Network;
 using NaturesCall.Util;
 using Vintagestory.API.Client;
 using Vintagestory.API.Common;
 using Vintagestory.API.Config;
 using Vintagestory.API.Datastructures;
 using Vintagestory.API.Server;
-using Core = NaturesCall.Core;
 
-namespace BalancedThirst.Systems;
+namespace NaturesCall.Network;
 
-public partial class DrinkNetwork : ModSystem
+public partial class BladderNetwork : ModSystem
 {
     public override double ExecuteOrder() => 2.02;
 

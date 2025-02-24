@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using NaturesCall.Util;
-using ProtoBuf;
 using Vintagestory.API.Common;
 
 namespace NaturesCall.Config;
