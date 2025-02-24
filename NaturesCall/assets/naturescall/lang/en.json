@@ -6,6 +6,7 @@
     "naturescall": "Nature's Call",
 
     "Config.Setting.EnableBladder": "Enable bladder",
+    "Config.Setting.BladderCapacity": "Bladder capacity",
     "Config.Setting.BladderCapacityOverload": "How much can the bladder be overloaded?",
     "Config.Setting.SpillWashStains": "Spilling water washes stains",
     "Config.Setting.BladderWalkSpeedDebuff": "Walk speed debuff at full bladder",

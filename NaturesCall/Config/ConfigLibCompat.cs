@@ -58,13 +58,14 @@ public partial class ConfigLibCompat
         {
             ImGui.Indent(); 
             config.EnableBladder = OnCheckBox(id, config.EnableBladder, nameof(config.EnableBladder));
-            config.SpillWashStains = OnCheckBox(id, config.SpillWashStains, nameof(config.SpillWashStains));
-            config.UrineStains = OnCheckBox(id, config.UrineStains, nameof(config.UrineStains));
-            config.BladderWalkSpeedDebuff = OnInputFloat(id, config.BladderWalkSpeedDebuff, nameof(config.BladderWalkSpeedDebuff));
+            config.BladderCapacity = OnInputInt(id, config.BladderCapacity, nameof(config.BladderCapacity));
             config.BladderCapacityOverload = OnInputFloat(id, config.BladderCapacityOverload, nameof(config.BladderCapacityOverload));
-            config.UrineNutrientChance = OnInputFloat(id, config.UrineNutrientChance, nameof(config.UrineNutrientChance));
+            config.BladderWalkSpeedDebuff = OnInputFloat(id, config.BladderWalkSpeedDebuff, nameof(config.BladderWalkSpeedDebuff));
             config.UrineDrainRate = OnInputFloat(id, config.UrineDrainRate, nameof(config.UrineDrainRate));
+            config.UrineNutrientChance = OnInputFloat(id, config.UrineNutrientChance, nameof(config.UrineNutrientChance));
             DisplayEnumFloatDictionary(config.UrineNutrientLevels, nameof(config.UrineNutrientLevels), id);
+            config.UrineStains = OnCheckBox(id, config.UrineStains, nameof(config.UrineStains));
+            config.SpillWashStains = OnCheckBox(id, config.SpillWashStains, nameof(config.SpillWashStains));
             ImGui.Unindent();
         }
         if (ImGui.CollapsingHeader(Lang.Get(settingsAdvanced) + $"##settingAdvanced-{id}"))

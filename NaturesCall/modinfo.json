@@ -3,9 +3,9 @@
     "modid": "naturescall",
     "name": "NaturesCall",
     "authors": [
-        "Unknown"
+        "jayugg"
     ],
-    "description": "To be added",
+    "description": "Nature calls, and you must answer.",
     "version": "1.0.0",
     "dependencies": {
         "game": ""
