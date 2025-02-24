@@ -1,4 +1,2 @@
-- [Tweak] Change default bladder bar position with HoD Installed
-- [Fix] Fix bladder bar not flashing when overloaded
-- [Fix] Urine distills to distilled water
-- [Tweak] setBladder command will now display actual bladder level after setting (level is capped at max capacity)
+- [Easter Egg] Setting urine color to "blahaj" will now make it the colors of the trans flag
+- [Fix] Urine client color option now works better

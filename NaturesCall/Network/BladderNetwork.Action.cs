@@ -176,17 +176,34 @@ public partial class BladderNetwork
         
         if (color != null)
         {
-            if (color == "gaymer")
+            switch (color)
             {
-                // Make it change color over time using a sine wave in hsv space
-                double hue = (Math.Sin(byEntity.World.ElapsedMilliseconds / 1000.0) * 0.5 + 0.5) * 255;
-                int rgbaColor = ColorUtil.HsvToRgba((int)hue, 255, 255);
-                _waterParticles.Color = (rgbaColor & 0x00FFFFFF) | (255 << 24); // Ensure alpha is set to 255
-            }
-            else
-            {
-                var colors = ColorUtil.Hex2Doubles(color);
-                _waterParticles.Color = ColorUtil.ToRgba(120, (int)(colors[0]*255), (int)(colors[1]*255), (int)(colors[2]*255));
+                case "gaymer":
+                {
+                    // Make it change color over time using a sine wave in hsv space
+                    double hue = (Math.Sin(byEntity.World.ElapsedMilliseconds / 1000.0) * 0.5 + 0.5) * 255;
+                    int rgbaColor = ColorUtil.HsvToRgba((int)hue, 255, 255);
+                    _waterParticles.Color = (rgbaColor & 0x00FFFFFF) | (120 << 24); // Ensure alpha is set to 160
+                    _waterParticles.ClimateColorMap = null;
+                    break;
+                }
+                case "blahaj":
+                {
+                    // Set the color to the trans flag colors
+                    var transFlagColors = new[] { "#5BCEFA", "#F5A9B8", "#FFFFFF", "#F5A9B8", "#5BCEFA" }; // Light blue, pink, white
+                    var colorIndex = (int)((byEntity.World.ElapsedMilliseconds / 1000.0) % transFlagColors.Length);
+                    var colors = ColorUtil.Hex2Doubles(transFlagColors[colorIndex]);
+                    _waterParticles.Color = ColorUtil.ToRgba(160, (int)(colors[0] * 255), (int)(colors[1] * 255), (int)(colors[2] * 255));
+                    _waterParticles.ClimateColorMap = null;
+                    break;
+                }
+                default:
+                {
+                    var colors = ColorUtil.Hex2Doubles(color);
+                    _waterParticles.Color = ColorUtil.ToRgba(160, (int)(colors[0]*255), (int)(colors[1]*255), (int)(colors[2]*255));
+                    _waterParticles.ClimateColorMap = null;
+                    break;
+                }
             }
         }
         
