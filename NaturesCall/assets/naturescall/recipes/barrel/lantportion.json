@@ -1,0 +1,8 @@
+{
+  "code": "naturescall:lantportion",
+  "sealHours": 240,
+  "ingredients": [
+    { "type": "item", "code": "naturescall:urineportion",  "litres": 1 }
+  ],
+  "output": { "type": "item", "code": "naturescall:lantportion", "litres": 1 }
+}

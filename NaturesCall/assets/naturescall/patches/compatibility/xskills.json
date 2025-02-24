@@ -1,0 +1,28 @@
+[
+  {
+    "file": "xskills:skills/survival.json",
+    "op": "add",
+    "path": "/elephantbladder",
+    "value": {
+      "requirements": [
+        {
+          "code": "or",
+          "minimumTier": 2,
+          "requirements": [
+            {
+              "code": "skill",
+              "skill": "farming",
+              "requiredLevel": 3
+            },
+            {
+              "code": "skill",
+              "skill": "cooking",
+              "requiredLevel": 3
+            }
+          ]
+        }
+      ]
+    },
+    "dependsOn": [{ "modid": "xskills" }]
+  }
+]

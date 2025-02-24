@@ -1,0 +1,43 @@
+{
+    "Config.Text.SupportsWildcard": "Supports wildcard",
+    "Config.Text.SupportsHex": "Input hex value",
+    "Config.SettingsSimple": "Simple Settings",
+
+    "naturescall": "Nature's Call",
+
+    "Config.Setting.EnableBladder": "Enable bladder",
+    "Config.Setting.BladderCapacityOverload": "How much can the bladder be overloaded?",
+    "Config.Setting.SpillWashStains": "Spilling water washes stains",
+    "Config.Setting.BladderWalkSpeedDebuff": "Walk speed debuff at full bladder",
+    "Config.Setting.UrineNutrientChance": "Chance of urine giving nutrients to farmland (0 to disable)",
+    "Config.Setting.UrineDrainRate": "Rate of urine drain",
+    "Config.Setting.UrineNutrientLevels": "Amount of nutrients given by urine",
+    "Config.Setting.UrineStains": "Urinating on blocks will stain them",
+    
+    "Config.SettingsAdvanced": "Advanced Settings",
+    "Config.Setting.UrineStainableMaterials": "Urine Stainable Materials",
+
+    "naturescall_client": "Nature's Call (Client)",
+    "Config.Setting.BladderBarX": "Bladder bar x offset",
+    "Config.Setting.BladderBarY": "Bladder bar y offset",
+    "Config.Setting.PeeMode": "Sitting or Standing?",
+    "Config.Setting.HideBladderBarAt": "Hide bladder bar when below this percentage",
+    "Config.Setting.BladderBarColor": "Bladder bar color",
+    "Config.Setting.UrineColor": "Urine color",
+
+    "Config.SettingsCompat": "Compatibility Settings (Require reload)",
+    "Config.Setting.ElephantBladderCapacityMultiplier": "Elephant Bladder skill hydration boost (xSkills)",
+    
+    "ability-elephantbladder": "Elephant Bladder",
+    "abilitydesc-elephantbladder": "Increases your bladder capacity by {0}.",
+
+    "interaction-pee": "Urinate",
+    "peemodenotset": "Urination mode is not set. Please set it in the client config.",
+    "hotkey-pee": "Urinate",
+
+    "block-caveart-stain-urine*": "urine stains",
+    "item-urineportion": "Urine",
+    "incontainer-item-urineportion": "Urine",
+    "item-lantportion": "Lant",
+    "incontainer-item-lantportion": "Lant"
+}
