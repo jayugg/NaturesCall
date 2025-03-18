@@ -88,7 +88,7 @@ public class EntityBehaviorBladder : EntityBehavior
     
     public void ReceiveFluid(float fluidAmount)
     {
-        this._api.Event.PushEvent(EventIds.BladderReceiveFluid, new FloatAttribute(fluidAmount));
+        this._api?.Event.PushEvent(EventIds.BladderReceiveFluid, new FloatAttribute(fluidAmount));
         this.CurrentLevel = Math.Clamp(this.CurrentLevel + fluidAmount, 0.0f, EffectiveCapacity);
     }
     
@@ -126,7 +126,7 @@ public class EntityBehaviorBladder : EntityBehavior
             player.World.PlayerByUid(player.PlayerUID).WorldData.CurrentGameMode ==
             EnumGameMode.Creative)
             return;
-        if (!IsOverloaded() || !ConfigSystem.ConfigServer.EnableBladder)
+        if (!IsOverloaded())
         {
             this.entity.Stats.Remove("walkspeed", "bladderfull");
         }

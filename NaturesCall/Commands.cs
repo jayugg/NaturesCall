@@ -66,7 +66,7 @@ public static class Commands
             }
 
             ResetModBoosts(targetPlayer?.Entity as EntityPlayer);
-            return TextCommandResult.Success($"Thirst stats reset for player '{targetPlayer.PlayerName}'.");
+            return TextCommandResult.Success($"Thirst stats reset for player '{targetPlayer?.PlayerName}'.");
         }
 
         private static IServerPlayer GetPlayerByName(ICoreServerAPI api, string playerName)

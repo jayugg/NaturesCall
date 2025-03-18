@@ -23,7 +23,6 @@ public class Constants
     };
     
     public struct InteractionIds {
-        public const string Drink = "drink";
         public const string PeeStand = "pee-stand";
         public const string PeeSit = "pee-sit";
         public const string Pee = "pee";

@@ -43,7 +43,6 @@ public class Core : ModSystem
         sapi.Event.OnEntitySpawn += AddEntityBehaviors;
         sapi.Event.OnEntityLoaded += AddEntityBehaviors;
         sapi.Event.PlayerJoin += (player) => OnPlayerJoin(player.Entity);
-        sapi.Event.RegisterEventBusListener(OnConfigReloaded, filterByEventName:EventIds.ConfigReloaded);
         Commands.Register(sapi);
         Logger.StoryEvent("Nature calls...");
         Logger.Event("Loaded server side");
@@ -63,26 +62,7 @@ public class Core : ModSystem
     private void AddEntityBehaviors(Entity entity)
     {
         if (entity is not EntityPlayer) return;
-        RemoveEntityBehaviors(entity);
-        if (ConfigSystem.ConfigServer.EnableBladder)
-            entity.AddBehavior(new EntityBehaviorBladder(entity));
-    }
-    
-    private void RemoveEntityBehaviors(Entity entity)
-    {
-        if (entity is not EntityPlayer) return;
-        if (!ConfigSystem.ConfigServer.EnableBladder && entity.HasBehavior<EntityBehaviorBladder>())
-            entity.RemoveBehavior(entity.GetBehavior<EntityBehaviorBladder>());
-    }
-    
-    private void OnConfigReloaded(string eventname, ref EnumHandling handling, IAttribute data)
-    {
-        foreach (IPlayer player in _api.World.AllPlayers)
-        {
-            if (player.Entity == null) continue;
-            RemoveEntityBehaviors(player.Entity);
-            AddEntityBehaviors(player.Entity);
-        }
+        entity.AddBehavior(new EntityBehaviorBladder(entity));
     }
 
     private static void Patch()

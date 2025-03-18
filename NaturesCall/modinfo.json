@@ -6,7 +6,7 @@
         "jayu"
     ],
     "description": "Nature calls, and you must answer.",
-    "version": "1.0.3",
+    "version": "1.1.0",
     "dependencies": {
         "game": ""
     }

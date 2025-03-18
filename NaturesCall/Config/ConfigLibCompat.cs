@@ -57,7 +57,6 @@ public partial class ConfigLibCompat
         if (ImGui.CollapsingHeader(Lang.Get(settingsSimple) + $"##settingSimple-{id}"))
         {
             ImGui.Indent(); 
-            config.EnableBladder = OnCheckBox(id, config.EnableBladder, nameof(config.EnableBladder));
             config.BladderCapacity = OnInputInt(id, config.BladderCapacity, nameof(config.BladderCapacity));
             config.BladderCapacityOverload = OnInputFloat(id, config.BladderCapacityOverload, nameof(config.BladderCapacityOverload));
             config.BladderWalkSpeedDebuff = OnInputFloat(id, config.BladderWalkSpeedDebuff, nameof(config.BladderWalkSpeedDebuff));

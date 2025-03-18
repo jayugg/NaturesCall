@@ -40,8 +40,7 @@ public partial class BladderNetwork
         if ( (player.Entity.World.Side & EnumAppSide.Server) != 0) return false;
         if ( world.ElapsedMilliseconds % 2 != 0 ) return false;
         
-        if (ConfigSystem.ConfigServer.EnableBladder &&
-            !player.Entity.Controls.TriesToMove &&
+        if (!player.Entity.Controls.TriesToMove &&
             player.Entity.RightHandItemSlot.Empty && 
             ConfigSystem.ConfigClient.PeeMode.IsStanding() ||
             (player.Entity.Controls.FloorSitting &&

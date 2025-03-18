@@ -6,8 +6,6 @@ namespace NaturesCall.Config;
 
 public class ConfigServer : IModConfig
 {
-    public string ThirstModId { get; set; }
-    public bool EnableBladder { get; set; } = true;
     public int BladderCapacity { get; set; } = 1500;
     public float BladderCapacityOverload { get; set; } = 0.25f;
     public float BladderWalkSpeedDebuff { get; set; } = 0.5f;
@@ -29,8 +27,6 @@ public class ConfigServer : IModConfig
         {
             return;
         }
-        ThirstModId = previousConfigServer.ThirstModId;
-        EnableBladder = previousConfigServer.EnableBladder;
         BladderCapacity = previousConfigServer.BladderCapacity;
         BladderCapacityOverload = previousConfigServer.BladderCapacityOverload;
         BladderWalkSpeedDebuff = previousConfigServer.BladderWalkSpeedDebuff;

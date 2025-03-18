@@ -1,2 +1,4 @@
-- [Easter Egg] Setting urine color to "blahaj" will now make it the colors of the trans flag
-- [Fix] Urine client color option now works better
+- [Fix] Custom urination keybind crash on servers
+- [Cleanup] Some code cleanup
+
+- Recompiled for 1.20.5
