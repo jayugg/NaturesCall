@@ -19,11 +19,11 @@ public class BlockEntityStain : BlockEntity
 
     private void OnGameTick(float dt)
     {
-        bool shouldDie = Api.World.BlockAccessor.GetBlock(Pos.UpCopy()).BlockMaterial == EnumBlockMaterial.Liquid ||
-                         Api.World.BlockAccessor.GetDistanceToRainFall(Pos, 2) < 2;
+        var shouldDie = Api.World.BlockAccessor.GetBlock(Pos.UpCopy()).BlockMaterial == EnumBlockMaterial.Liquid ||
+                        Api.World.BlockAccessor.GetDistanceToRainFall(Pos, 2) < 2;
         if (shouldDie)
             Api.World.BlockAccessor.SetBlock(0, Pos);
-        this.Block.OnBlockRemoved(Api.World, Pos);
+        Block.OnBlockRemoved(Api.World, Pos);
     }
 
     protected void Init()

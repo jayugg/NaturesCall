@@ -29,56 +29,56 @@ public class HudInteractionHelp : HudElement
     public HudInteractionHelp(ICoreClientAPI capi)
       : base(capi)
     {
-      this.wiUtil = new DrawWorldInteractionUtil(capi, this.Composers, "-interactHelper");
-      this.wiUtil.UnscaledLineHeight = 25.0;
-      this.wiUtil.FontSize = 16f;
+      wiUtil = new DrawWorldInteractionUtil(capi, Composers, "-interactHelper");
+      wiUtil.UnscaledLineHeight = 25.0;
+      wiUtil.FontSize = 16f;
       capi.Event.RegisterEventBusListener(OnEvent, filterByEventName: EventIds.Interaction);
-      capi.Event.AfterActiveSlotChanged += this.OnSlotFilled;
-      capi.Event.RegisterGameTickListener(new Action<float>(this.OnGameTick), 20);
+      capi.Event.AfterActiveSlotChanged += OnSlotFilled;
+      capi.Event.RegisterGameTickListener(new Action<float>(OnGameTick), 20);
     }
     
-    public override void OnOwnPlayerDataReceived() => this.ComposeGuis();
+    public override void OnOwnPlayerDataReceived() => ComposeGuis();
     
     private void OnEvent(string eventName, ref EnumHandling handling, IAttribute data)
     {
-      this.errorTextActiveMs = this.capi.InWorldEllapsedMilliseconds;
+      errorTextActiveMs = capi.InWorldEllapsedMilliseconds;
       if (data?.GetValue() is string interactionId) {
         interactions = new[] { Constants.Interactions[interactionId] };
-        this.wiUtil.ComposeBlockWorldInteractionHelp(interactions);
+        wiUtil.ComposeBlockWorldInteractionHelp(interactions);
       }
     }
 
     private void OnSlotFilled(ActiveSlotChangeEventArgs slot)
     {
-      var player = this.capi.World.Player;
+      var player = capi.World.Player;
       if (player.InventoryManager.ActiveHotbarSlot == null) return;
-      this.wiUtil.ComposeBlockWorldInteractionHelp(Array.Empty<WorldInteraction>());
+      wiUtil.ComposeBlockWorldInteractionHelp(Array.Empty<WorldInteraction>());
     }
 
     private void OnGameTick(float dt)
     {
-      if (this.errorTextActiveMs == 0L)
+      if (errorTextActiveMs == 0L)
         return;
-      if (this.capi.InWorldEllapsedMilliseconds - this.errorTextActiveMs > durationVisibleMs)
+      if (capi.InWorldEllapsedMilliseconds - errorTextActiveMs > durationVisibleMs)
       {
-        this.errorTextActiveMs = 0L;
-        this.wiUtil.ComposeBlockWorldInteractionHelp(Array.Empty<WorldInteraction>());
+        errorTextActiveMs = 0L;
+        wiUtil.ComposeBlockWorldInteractionHelp(Array.Empty<WorldInteraction>());
       }
     }
     
     public override void OnRenderGUI(float deltaTime)
     {
-      if (this.fadeCol.A <= 0.0)
+      if (fadeCol.A <= 0.0)
         return;
-      float frameWidth = this.capi.Render.FrameWidth;
-      float frameHeight = this.capi.Render.FrameHeight;
-      ElementBounds bounds = this.wiUtil.Composer?.Bounds;
+      float frameWidth = capi.Render.FrameWidth;
+      float frameHeight = capi.Render.FrameHeight;
+      var bounds = wiUtil.Composer?.Bounds;
       if (bounds != null)
       {
         bounds.Alignment = EnumDialogArea.None;
         bounds.fixedOffsetX = 0.0;
         bounds.fixedOffsetY = 0.0;
-        bounds.absFixedX = frameWidth / 2.0 - this.wiUtil.ActualWidth / 2.0;
+        bounds.absFixedX = frameWidth / 2.0 - wiUtil.ActualWidth / 2.0;
         bounds.absFixedY = frameHeight - GuiElement.scaled(95.0) - bounds.OuterHeight;
         bounds.absMarginX = 0.0;
         bounds.absMarginY = 0.0;
@@ -88,8 +88,8 @@ public class HudInteractionHelp : HudElement
 
     public void ComposeGuis()
     {
-      this.ClearComposers();
-      this.TryOpen();
+      ClearComposers();
+      TryOpen();
     }
 
     public override bool TryClose() => false;
@@ -103,7 +103,7 @@ public class HudInteractionHelp : HudElement
     public override void Dispose()
     {
       base.Dispose();
-      this.wiUtil?.Dispose();
+      wiUtil?.Dispose();
     }
     
   }

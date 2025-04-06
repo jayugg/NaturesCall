@@ -14,24 +14,24 @@ public class XSkillsCompat : ModSystem
 
     public override void Start(ICoreAPI api)
     {
-        this._api = api;
-        XLeveling xLeveling = api.ModLoader.GetModSystem("XLib.XLeveling.XLeveling") as XLeveling;
-        Skill survival = xLeveling?.GetSkill("survival");
-        Ability elephantBladder = new Ability("elephantbladder", Core.Modid+":ability-elephantbladder", Core.Modid+":abilitydesc-elephantbladder", 1, 2, new int[] { 750, 1500 });
+        _api = api;
+        var xLeveling = api.ModLoader.GetModSystem("XLib.XLeveling.XLeveling") as XLeveling;
+        var survival = xLeveling?.GetSkill("survival");
+        var elephantBladder = new Ability("elephantbladder", Core.ModId+":ability-elephantbladder", Core.ModId+":abilitydesc-elephantbladder", 1, 2, new int[] { 750, 1500 });
         elephantBladder.OnPlayerAbilityTierChanged += OnElephantBladder;
         survival?.AddAbility(elephantBladder);
     }
     
     public static void OnElephantBladder(PlayerAbility playerAbility, int oldTier)
     {
-        IPlayer player = playerAbility.PlayerSkill.PlayerSkillSet.Player;
+        var player = playerAbility.PlayerSkill.PlayerSkillSet.Player;
         if (player == null)
             return;
-        EnumAppSide? side = player.Entity?.Api.Side;
-        EnumAppSide enumAppSide = EnumAppSide.Server;
+        var side = player.Entity?.Api.Side;
+        var enumAppSide = EnumAppSide.Server;
         if (!(side.GetValueOrDefault() == enumAppSide & side.HasValue))
             return;
-        EntityBehaviorBladder behavior = player.Entity.GetBehavior<EntityBehaviorBladder>();
+        var behavior = player.Entity.GetBehavior<EntityBehaviorBladder>();
         if (behavior == null)
             return;
         var factor = 1f + (float) ((double) playerAbility.Value(0)/750)*ConfigSystem.ConfigServer.ElephantBladderCapacityMultiplier;

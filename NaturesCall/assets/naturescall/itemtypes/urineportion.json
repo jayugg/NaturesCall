@@ -24,10 +24,10 @@
   "transitionablePropsByType": {
     "*": [{
       "type": "Perish",
-      "freshHours": { "avg": 168 },
+      "freshHours": { "avg": 72 },
       "transitionHours": { "avg": 168 },
-      "transitionedStack": { "type": "item", "code": "game:rot" },
-      "transitionRatio": 0.005
+      "transitionedStack": { "type": "item", "code": "naturescall:lantportion" },
+      "transitionRatio": 0.5
     }]
   },
   "shape": { "base": "game:item/liquid" },

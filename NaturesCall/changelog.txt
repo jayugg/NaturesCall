@@ -1,4 +1,6 @@
-- [Fix] Custom urination keybind crash on servers
-- [Cleanup] Some code cleanup
+- TODO Refactor code more nicely
 
-- Added zh-cn localisation (Thanks to MystiVaid)
+- [Tweak] Rebalanced urination expiration
+- [Tweak] Rebalanced urination to be as intended (3 liters per 1800 hydration)
+- [Feature] Pop-up to request urination mode selection
+- [Localisation] Added zh-cn localisation (Thanks to MystiVaid)

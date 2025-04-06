@@ -33,14 +33,14 @@ public class Constants
         { "pee-stand", new WorldInteraction()
             {
                 RequireFreeHand = true,
-                ActionLangCode = Core.Modid+":interaction-pee",
+                ActionLangCode = Core.ModId+":interaction-pee",
                 MouseButton = EnumMouseButton.Right,
                 HotKeyCode = "ctrl"
             }
         },
         { "pee-sit", new WorldInteraction()
             {
-                ActionLangCode = Core.Modid+":interaction-pee",
+                ActionLangCode = Core.ModId+":interaction-pee",
                 MouseButton = EnumMouseButton.Right,
                 HotKeyCode = "sitdown"
             }
@@ -48,11 +48,11 @@ public class Constants
         { "pee", new WorldInteraction()
             {
                 RequireFreeHand = true,
-                ActionLangCode = Core.Modid+":interaction-pee",
+                ActionLangCode = Core.ModId+":interaction-pee",
                 MouseButton = EnumMouseButton.Right
             }
         }
     };
 
-    public static string PeeKeyCode = Core.Modid + ":hotkey-pee";
+    public static string PeeKeyCode = Core.ModId + ":hotkey-pee";
 }

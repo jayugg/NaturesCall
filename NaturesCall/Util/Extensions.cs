@@ -48,11 +48,11 @@ public static class Extensions
     
     public static bool IsBladderOverloaded(this IPlayer player)
     {
-        var bladderTree = player.Entity.WatchedAttributes.GetTreeAttribute(Core.Modid+":bladder");
+        var bladderTree = player.Entity.WatchedAttributes.GetTreeAttribute(Core.ModId+":bladder");
         if (bladderTree == null) return false;
 
-        float? currentLevel = bladderTree.TryGetFloat("currentlevel");
-        float? capacity = bladderTree.TryGetFloat("capacity");
+        var currentLevel = bladderTree.TryGetFloat("currentlevel");
+        var capacity = bladderTree.TryGetFloat("capacity");
 
         if (!currentLevel.HasValue || !capacity.HasValue) return false;
         return currentLevel > capacity;
@@ -61,11 +61,11 @@ public static class Extensions
     // From DanaTweaks
     public static void CoolWithWater(this BlockEntityToolMold mold)
     {
-        ItemStack stack = mold.MetalContent;
+        var stack = mold.MetalContent;
         if (stack != null)
         {
             // No clue why this doesn't work either
-            float temperature = stack.Collectible.GetTemperature(mold.Api.World, stack);
+            var temperature = stack.Collectible.GetTemperature(mold.Api.World, stack);
             stack.Collectible.SetTemperature(mold.Api.World, stack, Math.Max(20f, temperature - ConfigSystem.ConfigServer.UrineDrainRate));
             mold.Api.World.PlaySoundAt(new AssetLocation("sounds/effect/extinguish2"), mold.Pos.X, mold.Pos.Y, mold.Pos.Z);
         }
@@ -74,17 +74,17 @@ public static class Extensions
     // From DanaTweaks
     public static void CoolWithWater(this BlockEntityIngotMold mold)
     {
-        ItemStack rightStack = mold.ContentsRight;
-        ItemStack leftStack = mold.ContentsLeft;
+        var rightStack = mold.ContentsRight;
+        var leftStack = mold.ContentsLeft;
         if (rightStack != null)
         {
-            float temperature = rightStack.Collectible.GetTemperature(mold.Api.World, rightStack);
+            var temperature = rightStack.Collectible.GetTemperature(mold.Api.World, rightStack);
             rightStack.Collectible.SetTemperature(mold.Api.World, rightStack, Math.Max(20f, temperature - ConfigSystem.ConfigServer.UrineDrainRate));
             mold.Api.World.PlaySoundAt(new AssetLocation("sounds/effect/extinguish1"), mold.Pos.X, mold.Pos.Y, mold.Pos.Z);
         }
         if (leftStack != null)
         {
-            float temperature = leftStack.Collectible.GetTemperature(mold.Api.World, leftStack);
+            var temperature = leftStack.Collectible.GetTemperature(mold.Api.World, leftStack);
             leftStack.Collectible.SetTemperature(mold.Api.World, leftStack, Math.Max(20f, temperature - ConfigSystem.ConfigServer.UrineDrainRate));
             mold.Api.World.PlaySoundAt(new AssetLocation("sounds/effect/extinguish1"), mold.Pos.X, mold.Pos.Y, mold.Pos.Z);
         }

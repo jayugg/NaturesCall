@@ -28,16 +28,16 @@ public class HoDCompat : ModSystem
     {
         foreach (var player in api.World.AllPlayers)
         {
-            if (!PlayerThirstLevels.TryGetValue(player.PlayerUID, out float value))
+            if (!PlayerThirstLevels.TryGetValue(player.PlayerUID, out var value))
             {
                 value = 0;
                 PlayerThirstLevels.Add(player.PlayerUID, value);
             }
-            float currentThirst = player.Entity.WatchedAttributes.GetFloat("currentThirst");
-            float previousThirst = value;
+            var currentThirst = player.Entity.WatchedAttributes.GetFloat("currentThirst");
+            var previousThirst = value;
             if (currentThirst < previousThirst)
             {
-                float difference = previousThirst - currentThirst;
+                var difference = previousThirst - currentThirst;
                 player.Entity.GetBehavior<EntityBehaviorBladder>()?.ReceiveFluid(difference);
             }
             PlayerThirstLevels[player.PlayerUID] = currentThirst;

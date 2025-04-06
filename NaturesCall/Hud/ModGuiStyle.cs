@@ -44,4 +44,15 @@ public static class ModGuiStyle
     {
         return ColorUtil.Hex2Doubles(hex);
     }
+    
+    public static double[] InvertColor(double[] rgba)
+    {
+        return new[]
+        {
+            1 - rgba[0],
+            1 - rgba[1],
+            1 - rgba[2],
+            rgba[3]
+        };
+    }
 }

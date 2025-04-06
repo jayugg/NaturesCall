@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using JetBrains.Annotations;
 using NaturesCall.Bladder;
 using NaturesCall.BlockEntities;
 using NaturesCall.Config;
@@ -7,22 +8,21 @@ using NaturesCall.Util;
 using Vintagestory.API.Client;
 using Vintagestory.API.Common;
 using Vintagestory.API.Common.Entities;
-using Vintagestory.API.Datastructures;
 using Vintagestory.API.Server;
 
 namespace NaturesCall;
 
+[UsedImplicitly]
 public class Core : ModSystem
 {
-    public static ILogger Logger;
-    public static string Modid;
+    public const string ModId = "naturescall";
     private static ICoreAPI _api;
-    public static Harmony HarmonyInstance;
+    public static ILogger Logger { get; set; }
+    private static Harmony _harmonyInstance;
     
     public override void StartPre(ICoreAPI api)
     {
         _api = api;
-        Modid = Mod.Info.ModID;
         Logger = Mod.Logger;
         ConfigSystem.LoadConfig(api);
         if (api.ModLoader.IsModEnabled("configlib"))
@@ -33,8 +33,8 @@ public class Core : ModSystem
 
     public override void Start(ICoreAPI api)
     {
-        api.RegisterEntityBehaviorClass($"{Modid}:bladder", typeof(EntityBehaviorBladder));
-        api.RegisterBlockEntityClass($"{Modid}.{nameof(BlockEntityStain)}", typeof(BlockEntityStain));
+        api.RegisterEntityBehaviorClass($"{ModId}:bladder", typeof(EntityBehaviorBladder));
+        api.RegisterBlockEntityClass($"{ModId}.{nameof(BlockEntityStain)}", typeof(BlockEntityStain));
         Patch();
     }
     
@@ -67,21 +67,19 @@ public class Core : ModSystem
 
     private static void Patch()
     {
-        if (HarmonyInstance != null) return;
-        HarmonyInstance = new Harmony(Modid);
+        if (_harmonyInstance != null) return;
+        _harmonyInstance = new Harmony(ModId);
         Logger.VerboseDebug("Patching...");
-        if (ConfigSystem.ConfigServer.SpillWashStains)
-        {
-            HarmonyInstance.PatchCategory(PatchCategories.SpillWashStainsCategory);
-            Logger.VerboseDebug("Patched SpillWashStains...");
-        }
+        if (!ConfigSystem.ConfigServer.SpillWashStains) return;
+        _harmonyInstance.PatchCategory(PatchCategories.SpillWashStainsCategory);
+        Logger.VerboseDebug("Patched SpillWashStains...");
     }
 
     private static void Unpatch()
     {
         Logger?.VerboseDebug("Unpatching...");
-        HarmonyInstance?.UnpatchAll();
-        HarmonyInstance = null;
+        _harmonyInstance?.UnpatchAll();
+        _harmonyInstance = null;
     }
     
     public override void Dispose()
@@ -89,7 +87,6 @@ public class Core : ModSystem
         Unpatch();
         ConfigSystem.Dispose();
         Logger = null;
-        Modid = null;
         _api = null;
         base.Dispose();
     }

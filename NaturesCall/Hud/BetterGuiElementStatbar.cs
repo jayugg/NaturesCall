@@ -11,8 +11,8 @@ public class BetterGuiElementStatbar : GuiElementStatbar
     
     public void SetValues(float value, float min, float max)
     {
-        this.MinValue = min;
-        this.MaxValue = max;
+        MinValue = min;
+        MaxValue = max;
         base.SetValues(value, min, max);
     }
     
@@ -22,8 +22,8 @@ public class BetterGuiElementStatbar : GuiElementStatbar
 
     public override void RenderInteractiveElements(float deltaTime)
     {
-        if (this.Hide) return;
-        if (this.GetValue() < this.HideWhenLessThan*MaxValue) return;
+        if (Hide) return;
+        if (GetValue() <= HideWhenLessThan*MaxValue) return;
         base.RenderInteractiveElements(deltaTime);
     }
 

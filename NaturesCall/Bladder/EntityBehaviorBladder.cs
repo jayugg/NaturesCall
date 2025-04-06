@@ -14,7 +14,7 @@ public class EntityBehaviorBladder : EntityBehavior
     private ICoreAPI _api;
     public override string PropertyName() => AttributeKey;
     private long _listenerId;
-    private string AttributeKey => Core.Modid + ":bladder";
+    private string AttributeKey => Core.ModId + ":bladder";
     
     public StatMultiplier WalkSpeedMultiplier = new()
     {
@@ -29,8 +29,8 @@ public class EntityBehaviorBladder : EntityBehavior
         get
         {
             var capacityOverload = (float) Math.Round(CapacityModifier*ConfigSystem.ConfigServer.BladderCapacityOverload*ConfigSystem.ConfigServer.BladderCapacity);
-            this._bladderTree?.SetFloat("capacityoverload", capacityOverload);
-            this.entity.WatchedAttributes.MarkPathDirty(AttributeKey);
+            _bladderTree?.SetFloat("capacityoverload", capacityOverload);
+            entity.WatchedAttributes.MarkPathDirty(AttributeKey);
             return capacityOverload;
         }
     }
@@ -40,29 +40,29 @@ public class EntityBehaviorBladder : EntityBehavior
         get
         {
             var capacity = (float) Math.Round(CapacityModifier*ConfigSystem.ConfigServer.BladderCapacity);
-            this._bladderTree?.SetFloat("capacity", capacity);
-            this.entity.WatchedAttributes.MarkPathDirty(AttributeKey);
+            _bladderTree?.SetFloat("capacity", capacity);
+            entity.WatchedAttributes.MarkPathDirty(AttributeKey);
             return capacity;
         }
     }
 
     public float CurrentLevel
     {
-        get => Math.Min(this._bladderTree?.GetFloat("currentlevel")  ?? 0, EffectiveCapacity);
+        get => Math.Min(_bladderTree?.GetFloat("currentlevel")  ?? 0, EffectiveCapacity);
         set
         {
-            this._bladderTree?.SetFloat("currentlevel", Math.Min(value, EffectiveCapacity));
-            this.entity.WatchedAttributes.MarkPathDirty(AttributeKey);
+            _bladderTree?.SetFloat("currentlevel", Math.Min(value, EffectiveCapacity));
+            entity.WatchedAttributes.MarkPathDirty(AttributeKey);
         }
     }
     
     public float CapacityModifier
     {
-        get => this._bladderTree?.GetFloat("capacitymodifier") ?? 1;
+        get => _bladderTree?.GetFloat("capacitymodifier") ?? 1;
         set
         {
-            this._bladderTree?.SetFloat("capacitymodifier", value);
-            this.entity.WatchedAttributes.MarkPathDirty(AttributeKey);
+            _bladderTree?.SetFloat("capacitymodifier", value);
+            entity.WatchedAttributes.MarkPathDirty(AttributeKey);
         }
     }
     
@@ -74,37 +74,37 @@ public class EntityBehaviorBladder : EntityBehavior
 
     public override void Initialize(EntityProperties properties, JsonObject typeAttributes)
     {
-        this._bladderTree = this.entity.WatchedAttributes.GetTreeAttribute(AttributeKey);
-        this._api = this.entity.World.Api;
+        _bladderTree = entity.WatchedAttributes.GetTreeAttribute(AttributeKey);
+        _api = entity.World.Api;
 
-        if (this._bladderTree == null || this._bladderTree.GetFloat("capacity") == 0 || this._bladderTree.GetFloat("capacityoverload") == 0)
+        if (_bladderTree == null || _bladderTree.GetFloat("capacity") == 0 || _bladderTree.GetFloat("capacityoverload") == 0)
         {
-            this.entity.WatchedAttributes.SetAttribute(AttributeKey, _bladderTree = new TreeAttribute());
-            this.CurrentLevel = typeAttributes["currentlevel"].AsFloat(0);
-            this.CapacityModifier = typeAttributes["capacitymodifier"].AsFloat(1);
+            entity.WatchedAttributes.SetAttribute(AttributeKey, _bladderTree = new TreeAttribute());
+            CurrentLevel = typeAttributes["currentlevel"].AsFloat(0);
+            CapacityModifier = typeAttributes["capacitymodifier"].AsFloat(1);
         }
-        this._listenerId = this.entity.World.RegisterGameTickListener(this.SlowTick, 500);
+        _listenerId = entity.World.RegisterGameTickListener(SlowTick, 500);
     }
     
     public void ReceiveFluid(float fluidAmount)
     {
-        this._api?.Event.PushEvent(EventIds.BladderReceiveFluid, new FloatAttribute(fluidAmount));
-        this.CurrentLevel = Math.Clamp(this.CurrentLevel + fluidAmount, 0.0f, EffectiveCapacity);
+        _api?.Event.PushEvent(EventIds.BladderReceiveFluid, new FloatAttribute(fluidAmount));
+        CurrentLevel = Math.Clamp(CurrentLevel + fluidAmount, 0.0f, EffectiveCapacity);
     }
     
     public override void OnEntityReceiveDamage(DamageSource damageSource, ref float damage)
     {
         if (damageSource.Type != EnumDamageType.Heal || damageSource.Source != EnumDamageSource.Revive)
             return;
-        this.CurrentLevel = 0f;
+        CurrentLevel = 0f;
     }
     
-    public bool Drain(float multiplier = 1)
+    public bool Drain(float quantity = 1)
     {
-        float currentLevel = this.CurrentLevel;
+        var currentLevel = CurrentLevel;
         if (currentLevel < 0.0) return false;
-        float newLevel = Math.Clamp(currentLevel - multiplier * 10f, 0.0f, EffectiveCapacity);
-        this.CurrentLevel = newLevel;
+        var newLevel = Math.Clamp(currentLevel - quantity, 0.0f, EffectiveCapacity);
+        CurrentLevel = newLevel;
         return newLevel < currentLevel;
     }
     
@@ -122,18 +122,18 @@ public class EntityBehaviorBladder : EntityBehavior
     
     private void SlowTick(float dt)
     { 
-        if (this.entity is EntityPlayer player &&
+        if (entity is EntityPlayer player &&
             player.World.PlayerByUid(player.PlayerUID).WorldData.CurrentGameMode ==
             EnumGameMode.Creative)
             return;
         if (!IsOverloaded())
         {
-            this.entity.Stats.Remove("walkspeed", "bladderfull");
+            entity.Stats.Remove("walkspeed", "bladderfull");
         }
         else
         {
             WalkSpeedMultiplier.Multiplier = ConfigSystem.ConfigServer.BladderWalkSpeedDebuff;
-            this.entity.Stats.Set("walkspeed", "bladderfull", WalkSpeedMultiplier.CalcModifier((CurrentLevel - Capacity)/CapacityOverload));
+            entity.Stats.Set("walkspeed", "bladderfull", WalkSpeedMultiplier.CalcModifier((CurrentLevel - Capacity)/CapacityOverload));
         }
     }
     

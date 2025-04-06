@@ -41,5 +41,9 @@
     "item-urineportion": "尿液",
     "incontainer-item-urineportion": "尿液",
     "item-lantportion": "发酵尿液",
-    "incontainer-item-lantportion": "发酵尿液"
+    "incontainer-item-lantportion": "发酵尿液",
+
+    "hud-choosepeemode": "排尿模式未设置。请选择：",
+    "peemode-stand": "站立",
+    "peemode-sit": "坐下"
 }

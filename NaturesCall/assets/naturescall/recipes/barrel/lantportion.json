@@ -4,5 +4,5 @@
   "ingredients": [
     { "type": "item", "code": "naturescall:urineportion",  "litres": 1 }
   ],
-  "output": { "type": "item", "code": "naturescall:lantportion", "litres": 1 }
+  "output": { "type": "item", "code": "naturescall:lantportion", "litres": 0.5 }
 }

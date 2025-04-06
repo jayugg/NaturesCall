@@ -16,22 +16,22 @@ namespace NaturesCall.Hud
         private float _lastBladderCapacity;
         
         bool ShouldShowBladderBar => true;
-        public double[] BladderBarColor => ModGuiStyle.FromHex(ConfigSystem.ConfigClient.BladderBarColor);
-        public bool FirstComposed { get; private set; }
+        private double[] BladderBarColor => ModGuiStyle.FromHex(ConfigSystem.ConfigClient.BladderBarColor);
+        private bool FirstComposed { get; set; }
         
         public BladderBarHudElement(ICoreClientAPI capi) : base(capi)
         {
             capi.Event.RegisterGameTickListener(OnGameTick, 20);
-            capi.Event.RegisterGameTickListener(this.OnFlashStatbars, 2500);
+            capi.Event.RegisterGameTickListener(OnFlashStatbars, 2500);
             capi.Event.RegisterEventBusListener(ReloadBars, filterByEventName: EventIds.ConfigReloaded);
         }
 
         private void ReloadBars(string eventname, ref EnumHandling handling, IAttribute data)
         {
             if (!FirstComposed) return;
-            this.ClearComposers();
-            this.Dispose();
-            this.ComposeGuis();
+            ClearComposers();
+            Dispose();
+            ComposeGuis();
             if (ShouldShowBladderBar)
                 UpdateBladderBar(true);
         }
@@ -45,21 +45,21 @@ namespace NaturesCall.Hud
         public override void OnOwnPlayerDataReceived()
         {
             ComposeGuis();
-            this.OnGameTick(1);
+            OnGameTick(1);
         }
         
         private void UpdateBladderBar(bool forceReload = false)
         {
-            var bladderTree = this.capi.World.Player.Entity.WatchedAttributes.GetTreeAttribute(Core.Modid+":bladder");
+            var bladderTree = capi.World.Player.Entity.WatchedAttributes.GetTreeAttribute(Core.ModId+":bladder");
             if (bladderTree == null || _bladderBar == null) return;
 
-            float? currentLevel = bladderTree.TryGetFloat("currentlevel");
-            float? capacity = bladderTree.TryGetFloat("capacity");
+            var currentLevel = bladderTree.TryGetFloat("currentlevel");
+            var capacity = bladderTree.TryGetFloat("capacity");
 
             if (!currentLevel.HasValue || !capacity.HasValue) return;
 
-            bool isLevelChanged = Math.Abs(_lastBladderLevel - currentLevel.Value) >= 0.1;
-            bool isCapacityChanged = Math.Abs(_lastBladderCapacity - capacity.Value) >= 0.1;
+            var isLevelChanged = Math.Abs(_lastBladderLevel - currentLevel.Value) >= 0.1;
+            var isCapacityChanged = Math.Abs(_lastBladderCapacity - capacity.Value) >= 0.1;
 
             if (!isLevelChanged && !isCapacityChanged && !forceReload) return;
 
@@ -72,27 +72,27 @@ namespace NaturesCall.Hud
         
         private void OnFlashStatbars(float dt)
         {
-            var bladderTree  = this.capi.World.Player.Entity.WatchedAttributes.GetTreeAttribute(Core.Modid+":bladder");
+            var bladderTree  = capi.World.Player.Entity.WatchedAttributes.GetTreeAttribute(Core.ModId+":bladder");
 
-            if (bladderTree == null || this._bladderBar == null) return;
-            float? currentlevel = bladderTree.TryGetFloat("currentlevel");
-            float? capacity = bladderTree.TryGetFloat("capacity");
-            double? ratio = currentlevel.HasValue & capacity.HasValue
+            if (bladderTree == null || _bladderBar == null) return;
+            var currentlevel = bladderTree.TryGetFloat("currentlevel");
+            var capacity = bladderTree.TryGetFloat("capacity");
+            var ratio = currentlevel.HasValue & capacity.HasValue
                 ? currentlevel.GetValueOrDefault() / (double)capacity.GetValueOrDefault()
                 : new double?();
             if (ratio.GetValueOrDefault() > 1 & ratio.HasValue)
-                this._bladderBar.ShouldFlash = true;
+                _bladderBar.ShouldFlash = true;
         }
         
         private void ComposeGuis()
         {
             FirstComposed = true;
             var num = 850f;
-            ElementBounds parentBounds = GenParentBounds();
+            var parentBounds = GenParentBounds();
 
             if (ShouldShowBladderBar)
             {
-                ElementBounds bladderBarBounds = ElementStdBounds.Statbar(EnumDialogArea.RightBottom, num * 0.41)
+                var bladderBarBounds = ElementStdBounds.Statbar(EnumDialogArea.RightBottom, num * 0.41)
                     .WithFixedAlignmentOffset(
                         -2.0 + ConfigSystem.ConfigClient.BladderBarX,
                         10 + ConfigSystem.ConfigClient.BladderBarY - (HoDCompat.IsLoaded ? 7 : 0)
@@ -108,10 +108,10 @@ namespace NaturesCall.Hud
                     .EndChildElements()
                     .Compose();
                 
-                this._bladderBar.HideWhenLessThan = ConfigSystem.ConfigClient.HideBladderBarAt;
-                this._bladderBar.Hide = !ShouldShowBladderBar;
+                _bladderBar.HideWhenLessThan = ConfigSystem.ConfigClient.HideBladderBarAt;
+                _bladderBar.Hide = !ShouldShowBladderBar;
 
-                this.Composers["bladderbar"] = compo2;
+                Composers["bladderbar"] = compo2;
             }
             
             TryOpen();

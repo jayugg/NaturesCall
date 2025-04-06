@@ -48,7 +48,7 @@ public static class Commands
 
         private static TextCommandResult OnResetStatsCommand(ICoreServerAPI api, TextCommandCallingArgs args)
         {
-            string playerName = args[0] as string;
+            var playerName = args[0] as string;
 
             IServerPlayer targetPlayer;
 
@@ -86,8 +86,8 @@ public static class Commands
         private static TextCommandResult OnSetBladderCommand(ICoreServerAPI api,
             TextCommandCallingArgs args)
         {
-            string playerName = args[0] as string;
-            float newLevel = (float)args[1];
+            var playerName = args[0] as string;
+            var newLevel = (float)args[1];
 
             IServerPlayer targetPlayer;
 

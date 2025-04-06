@@ -14,6 +14,8 @@ public class PeeMessage
         public Vec3d HitPostion;
         [ProtoMember(3)]
         public string Color;
+        [ProtoMember(4)]
+        public long ActionMs;
     }
 
     [ProtoContract]

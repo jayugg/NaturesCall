@@ -20,9 +20,9 @@ public partial class ConfigLibCompat
     public ConfigLibCompat(ICoreAPI api)
     {
         if (api.Side == EnumAppSide.Server || api is ICoreClientAPI { IsSinglePlayer: true })
-            api.ModLoader.GetModSystem<ConfigLibModSystem>().RegisterCustomConfig(Lang.Get($"{Core.Modid}:{Core.Modid}"), (id, buttons) => EditConfigServer(id, buttons, api));
+            api.ModLoader.GetModSystem<ConfigLibModSystem>().RegisterCustomConfig(Lang.Get($"{Core.ModId}:{Core.ModId}"), (id, buttons) => EditConfigServer(id, buttons, api));
         if (api.Side == EnumAppSide.Client)
-            api.ModLoader.GetModSystem<ConfigLibModSystem>().RegisterCustomConfig(Lang.Get($"{Core.Modid}:{Core.Modid}_client"), (id, buttons) => EditConfigClient(id, buttons, api));
+            api.ModLoader.GetModSystem<ConfigLibModSystem>().RegisterCustomConfig(Lang.Get($"{Core.ModId}:{Core.ModId}_client"), (id, buttons) => EditConfigClient(id, buttons, api));
     }
     
     private void EditConfigClient(string id, ControlButtons buttons, ICoreAPI api)

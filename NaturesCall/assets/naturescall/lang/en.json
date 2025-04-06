@@ -40,5 +40,9 @@
     "item-urineportion": "Urine",
     "incontainer-item-urineportion": "Urine",
     "item-lantportion": "Lant",
-    "incontainer-item-lantportion": "Lant"
+    "incontainer-item-lantportion": "Lant",
+    
+    "hud-choosepeemode": "Urination mode is not set. Please choose:",
+    "peemode-stand": "Standing",
+    "peemode-sit": "Sitting"
 }
