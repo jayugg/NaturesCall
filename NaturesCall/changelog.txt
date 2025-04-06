@@ -1,4 +1,4 @@
 - [Fix] Custom urination keybind crash on servers
 - [Cleanup] Some code cleanup
 
-- Recompiled for 1.20.5
+- Added zh-cn localisation (Thanks to MystiVaid)

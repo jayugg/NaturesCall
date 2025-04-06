@@ -1,0 +1,45 @@
+
+{
+    "Config.Text.SupportsWildcard": "支持通配符",
+    "Config.Text.SupportsHex": "输入十六进制值",
+    "Config.SettingsSimple": "基础设置",
+
+    "naturescall": "自然呼唤",
+
+    "Config.Setting.EnableBladder": "启用膀胱系统",
+    "Config.Setting.BladderCapacity": "膀胱容量",
+    "Config.Setting.BladderCapacityOverload": "膀胱可超载容量",
+    "Config.Setting.SpillWashStains": "溢出的水可以清洗污渍",
+    "Config.Setting.BladderWalkSpeedDebuff": "膀胱满时的行走速度减益",
+    "Config.Setting.UrineNutrientChance": "尿液为农田提供营养的概率（0为禁用）",
+    "Config.Setting.UrineDrainRate": "排尿速率",
+    "Config.Setting.UrineNutrientLevels": "尿液提供的营养量",
+    "Config.Setting.UrineStains": "在方块上排尿会留下污渍",
+    
+    "Config.SettingsAdvanced": "高级设置",
+    "Config.Setting.UrineStainableMaterials": "可被尿液污染的材料",
+
+    "naturescall_client": "自然呼唤（客户端）",
+    "Config.Setting.BladderBarX": "膀胱条X轴偏移",
+    "Config.Setting.BladderBarY": "膀胱条Y轴偏移",
+    "Config.Setting.PeeMode": "坐姿还是站姿？",
+    "Config.Setting.HideBladderBarAt": "膀胱量低于此百分比时隐藏膀胱条",
+    "Config.Setting.BladderBarColor": "膀胱条颜色",
+    "Config.Setting.UrineColor": "尿液颜色",
+
+    "Config.SettingsCompat": "兼容性设置（需要重新加载）",
+    "Config.Setting.ElephantBladderCapacityMultiplier": "大象膀胱技能水合度提升（xSkills）",
+    
+    "ability-elephantbladder": "大象膀胱",
+    "abilitydesc-elephantbladder": "增加你的膀胱容量 {0}。",
+
+    "interaction-pee": "排尿",
+    "peemodenotset": "排尿模式未设置。请在客户端配置中设置。",
+    "hotkey-pee": "排尿",
+
+    "block-caveart-stain-urine*": "尿渍",
+    "item-urineportion": "尿液",
+    "incontainer-item-urineportion": "尿液",
+    "item-lantportion": "发酵尿液",
+    "incontainer-item-lantportion": "发酵尿液"
+}
