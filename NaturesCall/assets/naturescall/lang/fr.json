@@ -1,0 +1,49 @@
+{
+  "Config.Text.SupportsWildcard": "Prend en charge les caractères génériques",
+  "Config.Text.SupportsHex": "Entrer une valeur hexadécimale",
+  "Config.SettingsSimple": "Paramètres simples",
+
+  "naturescall": "L'appel de la nature (Nature's Call)",
+
+  "Config.Setting.EnableBladder": "Activer la vessie",
+  "Config.Setting.BladderCapacity": "Capacité de la vessie",
+  "Config.Setting.BladderCapacityOverload": "De combien la vessie peut-elle être surchargée ?",
+  "Config.Setting.SpillWashStains": "Verser de l'eau lave les taches",
+  "Config.Setting.BladderWalkSpeedDebuff": "Malus de vitesse de marche à vessie pleine",
+  "Config.Setting.UrineNutrientChance": "Chance que l'urine donne des nutriments aux terres agricoles (0 pour désactiver)",
+  "Config.Setting.UrineDrainRate": "Taux d'évacuation de l'urine",
+  "Config.Setting.UrineNutrientLevels": "Quantité de nutriments fournie par l'urine",
+  "Config.Setting.UrineStains": "Uriner sur des blocs les tache",
+
+  "Config.SettingsAdvanced": "Paramètres avancés",
+  "Config.Setting.UrineStainableMaterials": "Matériaux tachables par l'urine",
+
+  "naturescall_client": "L'appel de la nature (Client)",
+  "Config.Setting.BladderBarX": "Décalage x de la barre de vessie",
+  "Config.Setting.BladderBarY": "Décalage y de la barre de vessie",
+  "Config.Setting.PeeMode": "Assis ou debout ?",
+  "Config.Setting.HideBladderBarAt": "Cacher la barre de vessie en dessous de ce pourcentage",
+  "Config.Setting.BladderBarColor": "Couleur de la barre de vessie",
+  "Config.Setting.BladderBarOverloadColor": "Couleur de surcharge de la barre de vessie",
+  "Config.Setting.UrineColor": "Couleur de l'urine",
+
+  "Config.SettingsCompat": "Paramètres de compatibilité (Nécessite un rechargement)",
+  "Config.Setting.ElephantBladderCapacityMultiplier": "Multiplicateur de capacité de vessie d'éléphant (xSkills)",
+
+  "ability-elephantbladder": "Vessie d'éléphant",
+  "abilitydesc-elephantbladder": "Augmente votre capacité de vessie de {0}.",
+
+  "interaction-pee": "Uriner",
+  "peemodenotset": "La manière d'uriner n'est pas définie. Veuillez la définir dans la configuration du client.",
+  "hotkey-pee": "Uriner",
+
+  "block-caveart-stain-urine*": "taches d'urine",
+  "item-urineportion": "Urine",
+  "incontainer-item-urineportion": "Urine",
+  "item-lantportion": "Lant",
+  "incontainer-item-lantportion": "Lant",
+
+  "hud-choosepeemode": "La manière d'uriner n'est pas définie. Veuillez choisir :",
+  "peemode-stand": "Debout",
+  "peemode-sit": "Assis"
+}
