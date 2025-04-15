@@ -6,4 +6,5 @@ riderModule.iml
 .DS_Store
 .idea/**/*
 Releases/**/*
+*.dll
 *.user
