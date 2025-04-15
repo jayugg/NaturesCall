@@ -41,6 +41,7 @@ public partial class ConfigLibCompat
         config.BladderBarY = OnInputFloat(id, config.BladderBarY, nameof(config.BladderBarY), -float.MaxValue);
         config.HideBladderBarAt = OnInputFloat(id, config.HideBladderBarAt, nameof(config.HideBladderBarAt));
         config.BladderBarColor = OnInputHex(id, config.BladderBarColor, nameof(config.BladderBarColor));
+        config.BladderBarOverloadColor = OnInputHex(id, config.BladderBarOverloadColor, nameof(config.BladderBarOverloadColor));
         config.UrineColor = OnInputText(id, config.UrineColor, nameof(config.UrineColor));
     }
 

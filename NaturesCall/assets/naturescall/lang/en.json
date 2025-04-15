@@ -24,6 +24,7 @@
     "Config.Setting.PeeMode": "Sitting or Standing?",
     "Config.Setting.HideBladderBarAt": "Hide bladder bar when below this percentage",
     "Config.Setting.BladderBarColor": "Bladder bar color",
+    "Config.Setting.BladderBarOverloadColor": "Bladder bar overload color",
     "Config.Setting.UrineColor": "Urine color",
 
     "Config.SettingsCompat": "Compatibility Settings (Require reload)",

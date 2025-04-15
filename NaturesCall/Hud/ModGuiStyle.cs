@@ -4,36 +4,15 @@ namespace NaturesCall.Hud;
 
 public static class ModGuiStyle
 {
-    public static readonly double[] ThirstBarColor = new[]
-    {
-        0.2078431397676468,
-        0.3137255012989044,
-        0.43921568989753723,
-        1.0
-    };
-    
-    public static readonly double[] BladderBarColor = new[]
-    {
+    public static readonly double[] BladderBarColor =
+    [
         98 / 255.0,
         190 / 255.0,
         193 / 255.0,
         1.0
-    };
-    
-    public static readonly double[] ThirstBarColor2 = new[]
-    {
-        38 / 255.0,
-        70 / 255.0,
-        83 / 255.0,
-        1.0
-    };
-    public static readonly double[] ThirstBarColor3 = new[]
-    {
-        98 / 255.0,
-        190 / 255.0,
-        193 / 255.0,
-        1.0
-    };
+    ];
+
+    public static readonly double[] BladderBarOverloadColor = InvertColor(BladderBarColor);
     
     public static string ToHex(this double[] rgba)
     {
@@ -47,12 +26,12 @@ public static class ModGuiStyle
     
     public static double[] InvertColor(double[] rgba)
     {
-        return new[]
-        {
+        return
+        [
             1 - rgba[0],
             1 - rgba[1],
             1 - rgba[2],
             rgba[3]
-        };
+        ];
     }
 }

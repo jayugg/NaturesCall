@@ -94,4 +94,9 @@ public static class Extensions
     {
         (byPlayer.Entity.World.Api as ICoreClientAPI)?.TriggerIngameError(sender, errorCode, text);
     }
+    
+    public static bool NearlyEqual(this float a, float b, float tolerance = 1e-10f)
+    {
+        return Math.Abs(a - b) < tolerance;
+    }
 }

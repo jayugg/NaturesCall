@@ -10,13 +10,11 @@ namespace NaturesCall.Hud
 {
     public class BladderBarHudElement : HudElement
     {
-        private BetterGuiElementStatbar _bladderBar;
-        
+        private GuiElementOverloadableBar _bladderBar;
         private float _lastBladderLevel;
         private float _lastBladderCapacity;
-        
-        bool ShouldShowBladderBar => true;
-        private double[] BladderBarColor => ModGuiStyle.FromHex(ConfigSystem.ConfigClient.BladderBarColor);
+        private static double[] BladderBarColor => ModGuiStyle.FromHex(ConfigSystem.ConfigClient.BladderBarColor);
+        private static double[] OverloadBarColor => ModGuiStyle.FromHex(ConfigSystem.ConfigClient.BladderBarOverloadColor);
         private bool FirstComposed { get; set; }
         
         public BladderBarHudElement(ICoreClientAPI capi) : base(capi)
@@ -32,14 +30,12 @@ namespace NaturesCall.Hud
             ClearComposers();
             Dispose();
             ComposeGuis();
-            if (ShouldShowBladderBar)
-                UpdateBladderBar(true);
+            UpdateBladderBar(true);
         }
 
         private void OnGameTick(float dt)
         {
-            if (ShouldShowBladderBar)
-                UpdateBladderBar();
+            UpdateBladderBar();
         }
         
         public override void OnOwnPlayerDataReceived()
@@ -50,7 +46,7 @@ namespace NaturesCall.Hud
         
         private void UpdateBladderBar(bool forceReload = false)
         {
-            var bladderTree = capi.World.Player.Entity.WatchedAttributes.GetTreeAttribute(Core.ModId+":bladder");
+            var bladderTree = capi.World.Player.Entity.WatchedAttributes.GetTreeAttribute($"{Core.ModId}:bladder");
             if (bladderTree == null || _bladderBar == null) return;
 
             var currentLevel = bladderTree.TryGetFloat("currentlevel");
@@ -87,37 +83,37 @@ namespace NaturesCall.Hud
         private void ComposeGuis()
         {
             FirstComposed = true;
-            var num = 850f;
             var parentBounds = GenParentBounds();
+            var bladderBarBounds = ElementStdBounds.Statbar(EnumDialogArea.RightBottom, 850f * 0.41)
+                .WithFixedAlignmentOffset(
+                    -2.0 + ConfigSystem.ConfigClient.BladderBarX,
+                    10 + ConfigSystem.ConfigClient.BladderBarY - (HoDCompat.IsLoaded ? 7 : 0)
+                    );
+            bladderBarBounds.WithFixedHeight(6.0);
 
-            if (ShouldShowBladderBar)
-            {
-                var bladderBarBounds = ElementStdBounds.Statbar(EnumDialogArea.RightBottom, num * 0.41)
-                    .WithFixedAlignmentOffset(
-                        -2.0 + ConfigSystem.ConfigClient.BladderBarX,
-                        10 + ConfigSystem.ConfigClient.BladderBarY - (HoDCompat.IsLoaded ? 7 : 0)
-                        );
-                bladderBarBounds.WithFixedHeight(6.0);
+            var composer = capi.Gui.CreateCompo("bladderbar", parentBounds.FlatCopy().FixedGrow(0.0, 20.0));
+            _bladderBar = new GuiElementOverloadableBar(
+                capi,
+                bladderBarBounds,
+                BladderBarColor,
+                OverloadBarColor,
+                true,
+                true);
+            
+            composer.BeginChildElements(parentBounds)
+                .AddInteractiveElement(_bladderBar, "bladderbar")
+                .EndChildElements()
+                .Compose();
 
-                var compo2 = capi.Gui.CreateCompo("bladderbar", parentBounds.FlatCopy().FixedGrow(0.0, 20.0));
+            _bladderBar.HideWhenLessThan = ConfigSystem.ConfigClient.HideBladderBarAt;
+            _bladderBar.HideWhenFull = false;
 
-                _bladderBar = new BetterGuiElementStatbar(capi, bladderBarBounds, BladderBarColor, true, true);
-
-                compo2.BeginChildElements(parentBounds)
-                    .AddInteractiveElement(_bladderBar, "bladderbar")
-                    .EndChildElements()
-                    .Compose();
-                
-                _bladderBar.HideWhenLessThan = ConfigSystem.ConfigClient.HideBladderBarAt;
-                _bladderBar.Hide = !ShouldShowBladderBar;
-
-                Composers["bladderbar"] = compo2;
-            }
+            Composers["bladderbar"] = composer;
             
             TryOpen();
         }
 
-        private ElementBounds GenParentBounds()
+        private static ElementBounds GenParentBounds()
         {
             return new ElementBounds()
             {

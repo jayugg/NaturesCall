@@ -25,6 +25,7 @@
     "Config.Setting.PeeMode": "坐姿还是站姿？",
     "Config.Setting.HideBladderBarAt": "膀胱量低于此百分比时隐藏膀胱条",
     "Config.Setting.BladderBarColor": "膀胱条颜色",
+    "Config.Setting.BladderBarOverloadColor": "膀胱条超载颜色",
     "Config.Setting.UrineColor": "尿液颜色",
 
     "Config.SettingsCompat": "兼容性设置（需要重新加载）",
