@@ -15,10 +15,15 @@ public class XSkillsCompat : ModSystem
     public override void Start(ICoreAPI api)
     {
         _api = api;
-        var xLeveling = api.ModLoader.GetModSystem("XLib.XLeveling.XLeveling") as XLeveling;
-        var survival = xLeveling?.GetSkill("survival");
-        var elephantBladder = new Ability("elephantbladder", Core.ModId+":ability-elephantbladder", Core.ModId+":abilitydesc-elephantbladder", 1, 2, new int[] { 750, 1500 });
-        elephantBladder.OnPlayerAbilityTierChanged += OnElephantBladder;
+        var xLeveling = api.ModLoader.GetModSystem<XLeveling>();
+        var survival = xLeveling?.GetSkill("survival", false);
+        if (survival == null) return;
+        var elephantBladder = new Ability(
+            "elephantbladder", 
+            Core.ModId+":ability-elephantbladder",
+            Core.ModId+":abilitydesc-elephantbladder",
+            1, 2, [750, 1500]);
+        if (api.Side == EnumAppSide.Server) elephantBladder.OnPlayerAbilityTierChanged += OnElephantBladder;
         survival?.AddAbility(elephantBladder);
     }
     
