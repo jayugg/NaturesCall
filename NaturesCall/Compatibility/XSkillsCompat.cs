@@ -7,16 +7,12 @@ namespace NaturesCall.Compatibility;
 
 public class XSkillsCompat : ModSystem
 {
-    private ICoreAPI _api;
-
-    public override double ExecuteOrder() => 1.05;
-    public override bool ShouldLoad(ICoreAPI api) => api.ModLoader.IsModEnabled("xskills");
-
+    public override bool ShouldLoad(ICoreAPI api) => api.ModLoader.IsModEnabled("xlib") 
+                                                    || api.ModLoader.IsModEnabled("xlibrabite"); // 1.21 unofficial patch
     public override void Start(ICoreAPI api)
     {
-        _api = api;
         var xLeveling = api.ModLoader.GetModSystem<XLeveling>();
-        var survival = xLeveling?.GetSkill("survival", false);
+        var survival = xLeveling?.GetSkill("survival");
         if (survival == null) return;
         var elephantBladder = new Ability(
             "elephantbladder", 
@@ -24,7 +20,7 @@ public class XSkillsCompat : ModSystem
             Core.ModId+":abilitydesc-elephantbladder",
             1, 2, [750, 1500]);
         if (api.Side == EnumAppSide.Server) elephantBladder.OnPlayerAbilityTierChanged += OnElephantBladder;
-        survival?.AddAbility(elephantBladder);
+        survival.AddAbility(elephantBladder);
     }
     
     public static void OnElephantBladder(PlayerAbility playerAbility, int oldTier)

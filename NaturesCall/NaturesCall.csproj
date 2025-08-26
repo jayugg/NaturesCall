@@ -49,11 +49,11 @@
     <!-- References to mods via local DLLs and NuGet packages if available -->
     <ItemGroup>
         <Reference Include="configlib">
-            <HintPath>..\configlib.dll</HintPath>
+            <HintPath>../configlib.dll</HintPath>
             <Private>false</Private>
         </Reference>
         <Reference Include="xlib">
-            <HintPath>..\xlib.dll</HintPath>
+            <HintPath>../xlib.dll</HintPath>
             <Private>False</Private>
         </Reference>
         <PackageReference Include="VSImGui" Version="0.0.6" />

@@ -25,8 +25,7 @@ public class HoDCompat : ModSystem
     private static float GetCurrentThirst(IPlayer player)
     {
         var thirstTree = player.Entity.WatchedAttributes.GetTreeAttribute("thirst");
-        if (thirstTree == null) return 0;
-        return thirstTree.TryGetFloat("currentThirst") ?? 0;
+        return thirstTree?.TryGetFloat("currentThirst") ?? 0;
     }
     
     private void OnServerGameTick(ICoreAPI api, float dt)
