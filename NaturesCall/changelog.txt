@@ -1,4 +1,3 @@
-- TODO Refactor code more nicely
-
-- [Tweak] Now bladder bar overload is visible. Default color is the inverse of the bladder bar color, but can be changed in the config
-- [Localisation] Added fr localisation (Thanks to Wailwolf)
+- [Port] Last 1.20.x version release, backport from version 1.2.2 for 1.21.0
+- [Fix] Read thirst values properly from newer HoD versions
+- [Fix] Memory leak when exiting the world in single player
