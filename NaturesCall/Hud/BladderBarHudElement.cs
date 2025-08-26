@@ -86,12 +86,11 @@ namespace NaturesCall.Hud
         {
             FirstComposed = true;
             var parentBounds = GenParentBounds();
-            var hodLoaded = capi.ModLoader.GetModSystem<BladderSourceLoader>()?.SourceType == BladderSourceType.HydrateOrDiedrate;
             var (xOffset, yOffset) = GetBarOffsets();
             var bladderBarBounds = ElementStdBounds.Statbar(EnumDialogArea.RightBottom, 850f * 0.41)
                 .WithFixedAlignmentOffset(xOffset, yOffset);
             bladderBarBounds.WithFixedHeight(6.0);
-
+            
             var composer = capi.Gui.CreateCompo(ComposerKey, parentBounds.FlatCopy().FixedGrow(0.0, 20.0));
             _bladderBar = new GuiElementOverloadableBar(
                 capi,
