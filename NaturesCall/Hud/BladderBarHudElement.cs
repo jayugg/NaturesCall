@@ -1,6 +1,7 @@
 using System;
 using NaturesCall.Compatibility;
 using NaturesCall.Config;
+using NaturesCall.Thirst;
 using NaturesCall.Util;
 using Vintagestory.API.Client;
 using Vintagestory.API.Common;
@@ -85,14 +86,10 @@ namespace NaturesCall.Hud
         {
             FirstComposed = true;
             var parentBounds = GenParentBounds();
-            var hodLoaded = false || capi.ModLoader.GetModSystem<HoDCompat>()?.IsLoaded == true;
-            const double xOffset = -2.0;
-            const double yOffset = 10.0;
-            var yOffsetHod = yOffset - (hodLoaded ? 7 : 0);
+            var hodLoaded = capi.ModLoader.GetModSystem<BladderSourceLoader>()?.SourceType == BladderSourceType.HydrateOrDiedrate;
+            var (xOffset, yOffset) = GetBarOffsets();
             var bladderBarBounds = ElementStdBounds.Statbar(EnumDialogArea.RightBottom, 850f * 0.41)
-                .WithFixedAlignmentOffset(
-                    ConfigSystem.ConfigClient.BladderBarX + xOffset,
-                    ConfigSystem.ConfigClient.BladderBarY + yOffsetHod);
+                .WithFixedAlignmentOffset(xOffset, yOffset);
             bladderBarBounds.WithFixedHeight(6.0);
 
             var composer = capi.Gui.CreateCompo(ComposerKey, parentBounds.FlatCopy().FixedGrow(0.0, 20.0));
@@ -115,6 +112,29 @@ namespace NaturesCall.Hud
             Composers[ComposerKey] = composer;
             
             TryOpen();
+        }
+
+        private (double xOffset, double yOffset) GetBarOffsets()
+        {
+            const double xOffsetBase = -1.0;
+            const double yOffsetBase = 10.0;
+            var xOffset = ConfigSystem.ConfigClient.BladderBarX + xOffsetBase;
+            var yOffset = ConfigSystem.ConfigClient.BladderBarY + yOffsetBase;
+            var bladderSource = capi.ModLoader.GetModSystem<BladderSourceLoader>()?.SourceType;
+            switch (bladderSource)
+            {
+                case BladderSourceType.HydrateOrDiedrate:
+                    // Align with HoD thirst bar
+                    yOffset -= 7;
+                    break;
+                case BladderSourceType.Hunger:
+                    // Align with hunger bar
+                    yOffset += 14;
+                    break;
+                default:
+                    break;
+            }
+            return (xOffset, yOffset);
         }
 
         private static ElementBounds GenParentBounds()

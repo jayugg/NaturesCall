@@ -1,4 +1,4 @@
 - TODO Refactor code more nicely
 
-- [Update] Update to 1.21.1
-- [Update] Temporarily use xskills unofficial patch (https://mods.vintagestory.at/xskillsrabite) for xskills compatibility
+- [New] Bladder can fill from losing saturation if no thirst mod is present
+- [Config] Configure thirst to bladder conversion with BladderFillMultiplier

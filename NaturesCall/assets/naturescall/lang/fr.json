@@ -5,7 +5,7 @@
 
   "naturescall": "L'appel de la nature (Nature's Call)",
 
-  "Config.Setting.EnableBladder": "Activer la vessie",
+  "Config.Setting.BladderFillMultiplier": "Multiplicateur de remplissage de la vessie",
   "Config.Setting.BladderCapacity": "Capacité de la vessie",
   "Config.Setting.BladderCapacityOverload": "De combien la vessie peut-elle être surchargée ?",
   "Config.Setting.SpillWashStains": "Verser de l'eau lave les taches",

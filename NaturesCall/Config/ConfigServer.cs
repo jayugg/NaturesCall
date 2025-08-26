@@ -6,6 +6,8 @@ namespace NaturesCall.Config;
 
 public class ConfigServer : IModConfig
 {
+    // Should generally stay between 0.0 and 2.0, very high values may cause issues
+    public double BladderFillMultiplier { get; set; } = 1.0;
     public int BladderCapacity { get; set; } = 1500;
     public float BladderCapacityOverload { get; set; } = 0.25f;
     public float BladderWalkSpeedDebuff { get; set; } = 0.5f;

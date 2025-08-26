@@ -7,8 +7,8 @@
     "Config.SettingsSimple": "Configuración Sencilla",
 
     "naturescall": "Nature's Call",
-
-    "Config.Setting.EnableBladder": "Activar Vejiga",
+  
+    "Config.Setting.BladderFillMultiplier": "Multiplicador de llenado de la Vejiga",
     "Config.Setting.BladderCapacity": "Capacidad de la Vejiga",
     "Config.Setting.BladderCapacityOverload": "¿Hasta qué punto puede sobrecargarse la vejiga?",
     "Config.Setting.SpillWashStains": "Eliminar las Manchas de Orina al derramar Agua",

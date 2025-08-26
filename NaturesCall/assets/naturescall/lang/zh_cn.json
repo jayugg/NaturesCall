@@ -6,7 +6,7 @@
 
     "naturescall": "自然呼唤",
 
-    "Config.Setting.EnableBladder": "启用膀胱系统",
+    "Config.Setting.BladderFillMultiplier": "膀胱填充倍率",
     "Config.Setting.BladderCapacity": "膀胱容量",
     "Config.Setting.BladderCapacityOverload": "膀胱可超载容量",
     "Config.Setting.SpillWashStains": "溢出的水可以清洗污渍",
