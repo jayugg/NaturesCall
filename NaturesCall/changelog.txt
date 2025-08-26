@@ -1,4 +1,4 @@
 - TODO Refactor code more nicely
 
-- [Tweak] Now bladder bar overload is visible. Default color is the inverse of the bladder bar color, but can be changed in the config
-- [Localisation] Added fr localisation (Thanks to Wailwolf)
+- [Update] Update to 1.21.1
+- [Update] Temporarily use xskills unofficial patch (https://mods.vintagestory.at/xskillsrabite) for xskills compatibility

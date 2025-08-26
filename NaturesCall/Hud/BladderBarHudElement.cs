@@ -10,6 +10,7 @@ namespace NaturesCall.Hud
 {
     public class BladderBarHudElement : HudElement
     {
+        private const string ComposerKey = "bladderbar";
         private GuiElementOverloadableBar _bladderBar;
         private float _lastBladderLevel;
         private float _lastBladderCapacity;
@@ -84,14 +85,17 @@ namespace NaturesCall.Hud
         {
             FirstComposed = true;
             var parentBounds = GenParentBounds();
+            var hodLoaded = false || capi.ModLoader.GetModSystem<HoDCompat>()?.IsLoaded == true;
+            const double xOffset = -2.0;
+            const double yOffset = 10.0;
+            var yOffsetHod = yOffset - (hodLoaded ? 7 : 0);
             var bladderBarBounds = ElementStdBounds.Statbar(EnumDialogArea.RightBottom, 850f * 0.41)
                 .WithFixedAlignmentOffset(
-                    -2.0 + ConfigSystem.ConfigClient.BladderBarX,
-                    10 + ConfigSystem.ConfigClient.BladderBarY - (HoDCompat.IsLoaded ? 7 : 0)
-                    );
+                    ConfigSystem.ConfigClient.BladderBarX + xOffset,
+                    ConfigSystem.ConfigClient.BladderBarY + yOffsetHod);
             bladderBarBounds.WithFixedHeight(6.0);
 
-            var composer = capi.Gui.CreateCompo("bladderbar", parentBounds.FlatCopy().FixedGrow(0.0, 20.0));
+            var composer = capi.Gui.CreateCompo(ComposerKey, parentBounds.FlatCopy().FixedGrow(0.0, 20.0));
             _bladderBar = new GuiElementOverloadableBar(
                 capi,
                 bladderBarBounds,
@@ -101,14 +105,14 @@ namespace NaturesCall.Hud
                 true);
             
             composer.BeginChildElements(parentBounds)
-                .AddInteractiveElement(_bladderBar, "bladderbar")
+                .AddInteractiveElement(_bladderBar, ComposerKey)
                 .EndChildElements()
                 .Compose();
 
             _bladderBar.HideWhenLessThan = ConfigSystem.ConfigClient.HideBladderBarAt;
             _bladderBar.HideWhenFull = false;
 
-            Composers["bladderbar"] = composer;
+            Composers[ComposerKey] = composer;
             
             TryOpen();
         }
