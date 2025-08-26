@@ -206,6 +206,16 @@ public partial class BladderNetwork
                     _waterParticles.ClimateColorMap = null;
                     break;
                 }
+                case "enbee":
+                {
+                    // Set the color to the nonbinary flag colors
+                    var nonBinaryFlagColors = new[] { "#FFF430", "#FFFFFF", "#9C59D1", "#000000" }; // Yellow, white, purple, black
+                    var colorIndex = (int)((byEntity.World.ElapsedMilliseconds / 1000.0) % nonBinaryFlagColors.Length);
+                    var colors = ColorUtil.Hex2Doubles(nonBinaryFlagColors[colorIndex]);
+                    _waterParticles.Color = ColorUtil.ToRgba(160, (int)(colors[0] * 255), (int)(colors[1] * 255), (int)(colors[2] * 255));
+                    _waterParticles.ClimateColorMap = null;
+                    break;
+                }
                 default:
                 {
                     var colors = ColorUtil.Hex2Doubles(color);

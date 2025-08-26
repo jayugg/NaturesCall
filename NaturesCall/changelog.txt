@@ -1,4 +1,3 @@
 - TODO Refactor code more nicely
 
-- [New] Bladder can fill from losing saturation if no thirst mod is present
-- [Config] Configure thirst to bladder conversion with BladderFillMultiplier
+- [Easter Egg]
