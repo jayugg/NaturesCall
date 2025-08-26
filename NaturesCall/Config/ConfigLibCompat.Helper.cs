@@ -9,7 +9,7 @@ namespace NaturesCall.Config;
 
 public partial class ConfigLibCompat
 {
-    private bool OnCheckBox(string id, bool value, string name, bool isDisabled = false)
+    private static bool OnCheckBox(string id, bool value, string name, bool isDisabled = false)
     {
         var newValue = value && !isDisabled;
         if (isDisabled)
@@ -37,35 +37,47 @@ public partial class ConfigLibCompat
         return newValue;
     }
 
-    private int OnInputInt(string id, int value, string name, int minValue = default)
+    private static int OnInputInt(string id, int value, string name, int minValue = default)
     {
         var newValue = value;
         ImGui.InputInt(Lang.Get(settingPrefix + name) + $"##{name}-{id}", ref newValue, step: 1, step_fast: 10);
         return newValue < minValue ? minValue : newValue;
     }
 
-    private float OnInputFloat(string id, float value, string name, float minValue = default)
+    private static float OnInputFloat(string id, float value, string name, float minValue = 0, float? maxValue = null)
     {
         var newValue = value;
         ImGui.InputFloat(Lang.Get(settingPrefix + name) + $"##{name}-{id}", ref newValue, step: 0.01f, step_fast: 1.0f);
-        return newValue < minValue ? minValue : newValue;
+        // Guard against NaN or infinite inputs
+        if (float.IsNaN(newValue) || float.IsInfinity(newValue))
+            newValue = minValue;
+        // Clamp to [minValue, maxValue]
+        if (newValue < minValue) newValue = minValue;
+        if (newValue > maxValue) newValue = maxValue.Value;
+        return newValue;
     }
-    
-    private double OnInputDouble(string id, double value, string name, double minValue = default)
+     
+    private static double OnInputDouble(string id, double value, string name, double minValue = 0, double? maxValue = null)
     {
         var newValue = value;
         ImGui.InputDouble(Lang.Get(settingPrefix + name) + $"##{name}-{id}", ref newValue, step: 0.01f, step_fast: 1.0f);
-        return newValue < minValue ? minValue : newValue;
+         // Guard against NaN or infinite inputs
+        if (double.IsNaN(newValue) || double.IsInfinity(newValue))
+            newValue = minValue;
+        // Clamp to [minValue, maxValue]
+        if (newValue < minValue) newValue = minValue;
+        if (newValue > maxValue) newValue = maxValue.Value;
+        return newValue;
     }
 
-    private string OnInputText(string id, string value, string name)
+    private static string OnInputText(string id, string value, string name)
     {
         var newValue = value;
         ImGui.InputText(Lang.Get(settingPrefix + name) + $"##{name}-{id}", ref newValue, 64);
         return newValue;
     }
     
-    private string OnInputHex(string id, string value, string name)
+    private static string OnInputHex(string id, string value, string name)
     {
         var newValue = value;
         ImGui.InputTextWithHint(Lang.Get(settingPrefix + name) + $"##{name}-{id}", textSupportsHex,ref newValue, 64);
@@ -81,7 +93,7 @@ public partial class ConfigLibCompat
         return newValue.Split('\n', StringSplitOptions.RemoveEmptyEntries).AsEnumerable();
     }
     
-    private T OnInputEnum<T>(string id, T value, string name) where T : Enum
+    private static T OnInputEnum<T>(string id, T value, string name) where T : Enum
     {
         var enumNames = Enum.GetNames(typeof(T));
         var index = Array.IndexOf(enumNames, value.ToString());
@@ -112,7 +124,7 @@ public partial class ConfigLibCompat
         return newValues;
     }
     
-    private List<T> OnInputList<T>(string id, List<T> values, string name) where T : struct, Enum
+    private static List<T> OnInputList<T>(string id, List<T> values, string name) where T : struct, Enum
     {
         var newValues = new List<T>(values);
         for (var i = 0; i < newValues.Count; i++)
@@ -200,7 +212,7 @@ public partial class ConfigLibCompat
         }
     }
     
-    private void DisplayEnumFloatDictionary<T>(Dictionary<T, float> dictionary, string name, string id) where T : Enum
+    private static void DisplayEnumFloatDictionary<T>(Dictionary<T, float> dictionary, string name, string id) where T : Enum
     {
         if (ImGui.CollapsingHeader(Lang.Get(settingPrefix + name) + $"##dictEnumFloat-{id}"))
         {
