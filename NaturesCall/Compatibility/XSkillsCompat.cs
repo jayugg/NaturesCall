@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using NaturesCall.Bladder;
 using NaturesCall.Config;
 using Vintagestory.API.Common;
@@ -5,6 +6,7 @@ using XLib.XLeveling;
 
 namespace NaturesCall.Compatibility;
 
+[UsedImplicitly(ImplicitUseKindFlags.InstantiatedNoFixedConstructorSignature)]
 public class XSkillsCompat : ModSystem
 {
     public override bool ShouldLoad(ICoreAPI api) => api.ModLoader.IsModEnabled("xlib") 

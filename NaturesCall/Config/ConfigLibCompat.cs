@@ -21,7 +21,7 @@ public partial class ConfigLibCompat
     {
         if (api.Side == EnumAppSide.Server || api is ICoreClientAPI { IsSinglePlayer: true })
             api.ModLoader.GetModSystem<ConfigLibModSystem>().RegisterCustomConfig(Lang.Get($"{Core.ModId}:{Core.ModId}"), (id, buttons) => EditConfigServer(id, buttons, api));
-        if (api.Side == EnumAppSide.Client)
+        if (api.Side == EnumAppSide.Client || api is ICoreClientAPI { IsSinglePlayer: true })
             api.ModLoader.GetModSystem<ConfigLibModSystem>().RegisterCustomConfig(Lang.Get($"{Core.ModId}:{Core.ModId}_client"), (id, buttons) => EditConfigClient(id, buttons, api));
     }
     
@@ -30,7 +30,7 @@ public partial class ConfigLibCompat
         if (buttons.Save) ModConfig.WriteConfig(api, Constants.ConfigClientName, ConfigSystem.ConfigClient);
         if (buttons.Restore) ConfigSystem.ConfigClient = ModConfig.ReadConfig<ConfigClient>(api, Constants.ConfigClientName);
         if (buttons.Reload) api.Event.PushEvent(EventIds.ConfigReloaded);
-        if (buttons.Defaults) ConfigSystem.ConfigClient = new(api);
+        if (buttons.Defaults) ConfigSystem.ConfigClient = new ConfigClient(api);
         BuildSettingsClient(ConfigSystem.ConfigClient, id);
     }
     
@@ -43,17 +43,18 @@ public partial class ConfigLibCompat
         config.BladderBarColor = OnInputHex(id, config.BladderBarColor, nameof(config.BladderBarColor));
         config.BladderBarOverloadColor = OnInputHex(id, config.BladderBarOverloadColor, nameof(config.BladderBarOverloadColor));
         config.UrineColor = OnInputText(id, config.UrineColor, nameof(config.UrineColor));
+        config.OnlyPeeWithHotkey = OnCheckBox(id, config.OnlyPeeWithHotkey, nameof(config.OnlyPeeWithHotkey));
     }
 
     private void EditConfigServer(string id, ControlButtons buttons, ICoreAPI api)
     {
         if (buttons.Save) ModConfig.WriteConfig(api, Constants.ConfigServerName, ConfigSystem.ConfigServer);
         if (buttons.Restore) ConfigSystem.ConfigServer = ModConfig.ReadConfig<ConfigServer>(api, Constants.ConfigServerName);
-        if (buttons.Defaults) ConfigSystem.ConfigServer = new(api);
+        if (buttons.Defaults) ConfigSystem.ConfigServer = new ConfigServer(api);
         BuildSettingsServer(ConfigSystem.ConfigServer, id);
     }
     
-    private void BuildSettingsServer(ConfigServer config, string id)
+    private static void BuildSettingsServer(ConfigServer config, string id)
     {
         if (ImGui.CollapsingHeader(Lang.Get(settingsSimple) + $"##settingSimple-{id}"))
         {

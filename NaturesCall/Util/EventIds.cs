@@ -1,9 +1,9 @@
 namespace NaturesCall.Util;
 
-public class EventIds
+public static class EventIds
 {
-    public static readonly string BladderReceiveFluid = $"{Core.ModId}:bladderReceiveFluid";
-    public static readonly string Interaction = $"{Core.ModId}:interaction";
-    public static readonly string ConfigReloaded = $"{Core.ModId}:configreloaded";
-    public static readonly string AdminSetConfig = $"{Core.ModId}:adminsetconfig";
+    public const string BladderReceiveFluid = $"{Core.ModId}:bladderReceiveFluid";
+    public const string Interaction = $"{Core.ModId}:interaction";
+    public const string ConfigReloaded = $"{Core.ModId}:configreloaded";
+    public const string AdminSetConfig = $"{Core.ModId}:adminsetconfig";
 }

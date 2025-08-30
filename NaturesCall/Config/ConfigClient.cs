@@ -13,6 +13,7 @@ public class ConfigClient : IModConfig
     public float BladderBarX { get; set; }
     public float BladderBarY { get; set; }
     public string UrineColor { get; set; } = "default";
+    public bool OnlyPeeWithHotkey { get; set; } = false;
     
     public ConfigClient(ICoreAPI api, ConfigClient previousConfig = null)
     {

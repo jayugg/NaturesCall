@@ -29,12 +29,14 @@ public class HudInteractionHelp : HudElement
     public HudInteractionHelp(ICoreClientAPI capi)
       : base(capi)
     {
-      wiUtil = new DrawWorldInteractionUtil(capi, Composers, "-interactHelper");
-      wiUtil.UnscaledLineHeight = 25.0;
-      wiUtil.FontSize = 16f;
+      wiUtil = new DrawWorldInteractionUtil(capi, Composers, "-interactHelper")
+      {
+        UnscaledLineHeight = 25.0,
+        FontSize = 16f
+      };
       capi.Event.RegisterEventBusListener(OnEvent, filterByEventName: EventIds.Interaction);
       capi.Event.AfterActiveSlotChanged += OnSlotFilled;
-      capi.Event.RegisterGameTickListener(new Action<float>(OnGameTick), 20);
+      capi.Event.RegisterGameTickListener(OnGameTick, 20);
     }
     
     public override void OnOwnPlayerDataReceived() => ComposeGuis();
@@ -43,7 +45,7 @@ public class HudInteractionHelp : HudElement
     {
       errorTextActiveMs = capi.InWorldEllapsedMilliseconds;
       if (data?.GetValue() is string interactionId) {
-        interactions = new[] { Constants.Interactions[interactionId] };
+        interactions = [Constants.Interactions[interactionId]];
         wiUtil.ComposeBlockWorldInteractionHelp(interactions);
       }
     }
@@ -52,7 +54,7 @@ public class HudInteractionHelp : HudElement
     {
       var player = capi.World.Player;
       if (player.InventoryManager.ActiveHotbarSlot == null) return;
-      wiUtil.ComposeBlockWorldInteractionHelp(Array.Empty<WorldInteraction>());
+      wiUtil.ComposeBlockWorldInteractionHelp([]);
     }
 
     private void OnGameTick(float dt)
@@ -62,7 +64,7 @@ public class HudInteractionHelp : HudElement
       if (capi.InWorldEllapsedMilliseconds - errorTextActiveMs > durationVisibleMs)
       {
         errorTextActiveMs = 0L;
-        wiUtil.ComposeBlockWorldInteractionHelp(Array.Empty<WorldInteraction>());
+        wiUtil.ComposeBlockWorldInteractionHelp([]);
       }
     }
     
@@ -102,8 +104,8 @@ public class HudInteractionHelp : HudElement
     
     public override void Dispose()
     {
-      base.Dispose();
       wiUtil?.Dispose();
+      base.Dispose();
     }
     
   }

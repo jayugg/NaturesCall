@@ -26,6 +26,7 @@
   "Config.Setting.BladderBarColor": "Couleur de la barre de vessie",
   "Config.Setting.BladderBarOverloadColor": "Couleur de surcharge de la barre de vessie",
   "Config.Setting.UrineColor": "Couleur de l'urine",
+  "Config.Setting.OnlyPeeWithHotkey": "Uriner uniquement en appuyant sur le raccourci (pas de clic droit)",
 
   "Config.SettingsCompat": "Paramètres de compatibilité (Nécessite un rechargement)",
   "Config.Setting.ElephantBladderCapacityMultiplier": "Multiplicateur de capacité de vessie d'éléphant (xSkills)",

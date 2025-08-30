@@ -1,7 +1,6 @@
-using NaturesCall.Thirst;
 using Vintagestory.API.Common;
 
-namespace NaturesCall.Compatibility;
+namespace NaturesCall.Thirst;
 
 public class HoDBladderSource : IBladderSource
 {

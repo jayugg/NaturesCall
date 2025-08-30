@@ -25,40 +25,76 @@ public partial class BladderNetwork
         EntityBehaviorBladder.PlayPeeSound(entity);
     }
     
-    private bool OnPeeKeyPressed(KeyCombination t1)
+    private void OnEntityAction(EnumEntityAction action, bool on, ref EnumHandling handled)
+    {
+        if (action != EnumEntityAction.InWorldRightMouseDown)
+        {
+            // Set up something in a bad way so now need this for it to function smoothly
+            _lastPeeMessageTime = null;
+            return;
+        };
+        if (ConfigSystem.ConfigClient.OnlyPeeWithHotkey) return;
+        if (!TryTriggerPeeActionOnClient()) return;
+        handled = EnumHandling.Handled;
+    }
+    
+    private bool OnPeeKeyPressed(KeyCombination keyCombination)
+    {
+        return TryTriggerPeeActionOnClient(true, true);
+    }
+
+    private bool TryTriggerPeeActionOnClient(bool ignoreOverload = false, bool ignoreExtraKeys = false)
     {
         var world = _capi?.World;
         var player = world?.Player;
         if (world == null || player == null) return false;
-        if ( (player.Entity.World.Side & EnumAppSide.Server) != 0) return false;
-        
-        if (ConfigSystem.ConfigClient.PeeMode == EnumPeeMode.None)
-        {
-            ChoiceHud.TryOpen();
-            player.IngameError(player, "peemodenotset", Lang.Get(Core.ModId+":peemodenotset") );
-        }
-        if (world.ElapsedMilliseconds - _lastPeeTime < PeeActionMs) return false;
-        if ((player.Entity.Controls.TriesToMove ||
-               !player.Entity.RightHandItemSlot.Empty ||
-               !ConfigSystem.ConfigClient.PeeMode.IsStanding()) &&
-            (!player.Entity.Controls.FloorSitting ||
-             !ConfigSystem.ConfigClient.PeeMode.IsSitting())) return false;
+        PromptModeChoiceIfNotSet(player);
+        if (!CanPlayerPee(player.Entity, ignoreOverload, ignoreExtraKeys)) return false;
         var actionMs = world.ElapsedMilliseconds - _lastPeeMessageTime;
         _lastPeeTime = world.ElapsedMilliseconds;
         _lastPeeMessageTime = world.ElapsedMilliseconds;
-        if (!actionMs.HasValue)
-            return false;
+        if (!actionMs.HasValue) return false;
         _clientChannel.SendPacket(new PeeMessage.Request()
         {
-            Position = player.Entity.BlockSelection?.Position,
-            HitPostion = player.Entity.BlockSelection?.HitPosition,
+            Position = player.CurrentBlockSelection?.Position,
+            HitPostion = player.CurrentBlockSelection?.HitPosition,
             Color = ConfigSystem.ConfigClient.UrineColor == "default" ? null : ConfigSystem.ConfigClient.UrineColor,
             ActionMs = actionMs.Value
         });
         return true;
+    }
 
+    private void PromptModeChoiceIfNotSet(IClientPlayer player)
+    {
+        if (ConfigSystem.ConfigClient.PeeMode == EnumPeeMode.None)
+        {
+            _choiceHud.TryOpen();
+            player.IngameError(player, "peemodenotset", Lang.Get(Core.ModId+":peemodenotset") );
+        }
     }
     
+    private bool CanPlayerPee(EntityPlayer player, bool ignoreOverload = false, bool ignoreExtraKeys = false)
+    {
+        if (ignoreOverload) return CheckPeeControls(player, ignoreExtraKeys);
+        return (player.Player.IsBladderOverloaded() || player.World.ElapsedMilliseconds - _lastPeeTime >= PeeActionMs) &&
+               CheckPeeControls(player, ignoreExtraKeys);
+    }
+
+    private static bool CheckPeeControls(EntityPlayer player, bool ignoreExtraKeys = false)
+    {
+        var canPee = player.ActiveHandItemSlot.Empty;
+        if (ConfigSystem.ConfigClient.PeeMode.IsStanding())
+        {
+            canPee = canPee && (ignoreExtraKeys || player.Controls.CtrlKey);
+        }
+        else if (ConfigSystem.ConfigClient.PeeMode.IsSitting())
+        {
+            canPee = canPee && player.Controls.FloorSitting;
+        }
+        else return false;
+        return canPee;
+    }
+
     #endregion
     
     #region Server
@@ -70,7 +106,7 @@ public partial class BladderNetwork
         var bh = player.Entity.GetBehavior<EntityBehaviorBladder>();
         var urinationDs = request.ActionMs / 100f;
         var drainAmount = ConfigSystem.ConfigServer.UrineDrainRate * urinationDs * 4;
-        if (!bh.Drain(drainAmount)) return;
+        if (!(bh?.Drain(drainAmount) ?? false)) return;
         EntityBehaviorBladder.PlayPeeSound(player.Entity);
         SpawnPeeParticles(player.Entity, request.Position, player.CurrentBlockSelection?.HitPosition, request.Color);
         var world = player.Entity.World;
@@ -126,7 +162,7 @@ public partial class BladderNetwork
                 player.CurrentBlockSelection.ToDecorIndex());
     }
 
-    private void FertiliseIFarmland(IWorldAccessor world, BlockPos position)
+    private static void FertiliseIFarmland(IWorldAccessor world, BlockPos position)
     {
         if (position == null) return;
         var be = world.BlockAccessor.GetBlockEntity(position);
@@ -159,8 +195,8 @@ public partial class BladderNetwork
             be?.IncreaseNutrients(ConfigSystem.ConfigServer.UrineNutrientLevels);
         }
     }
-    
-    public static void SpawnPeeParticles(Entity byEntity, BlockPos pos, Vec3d hitPos, string color = null)
+
+    private static void SpawnPeeParticles(Entity byEntity, BlockPos pos, Vec3d hitPos, string color = null)
     {
         if (hitPos == null || pos == null) return;
         var entityPos = byEntity.Pos.XYZ.AddCopy(byEntity.LocalEyePos.SubCopy(0, 0.2, 0));
