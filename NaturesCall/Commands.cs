@@ -25,21 +25,22 @@ public static class Commands
                 .WithDescription("Debug commands for Nature's Call.")
                 .WithAlias("nc")
                 .RequiresPrivilege("controlserver")
+                
                 .BeginSubCommand("resetBladderStats")
                 .WithDescription("Resets the player's stat modifiers from bladder.")
                 .WithArgs(api.ChatCommands.Parsers.OptionalWord("playerName"))
                 .HandleWith((args) => OnResetStatsCommand(api, args))
                 .EndSubCommand()
+                
                 .BeginSubCommand("setBladder")
                 .WithDescription("Sets the player's bladder level.")
-                .WithArgs(api.ChatCommands.Parsers.OptionalWord("playerName"),
-                    api.ChatCommands.Parsers.Float("value"))
+                .WithArgs(api.ChatCommands.Parsers.Float("value"), api.ChatCommands.Parsers.OptionalWord("playerName"))
                 .HandleWith((args) => OnSetBladderCommand(api, args))
                 .EndSubCommand()
+                
                 .BeginSubCommand("setCapacityModifier")
                 .WithDescription("Sets the player's bladder capacity modifier (alteration to max bladder).")
-                .WithArgs(api.ChatCommands.Parsers.OptionalWord("playerName"),
-                    api.ChatCommands.Parsers.Float("value"))
+                .WithArgs(api.ChatCommands.Parsers.Float("value"), api.ChatCommands.Parsers.OptionalWord("playerName"))
                 .HandleWith((args) => OnSetCapacityModifierCommand(api, args))
                 .EndSubCommand();
         }
@@ -94,8 +95,8 @@ public static class Commands
         private static TextCommandResult OnSetBladderCommand(ICoreServerAPI api,
             TextCommandCallingArgs args)
         {
-            var playerName = args[0] as string;
-            var newLevel = (float)args[1];
+            var newLevel = (float)args[0];
+            var playerName = args[1] as string;
 
             IServerPlayer targetPlayer;
 
@@ -122,8 +123,8 @@ public static class Commands
         
         private static TextCommandResult OnSetCapacityModifierCommand(ICoreServerAPI api, TextCommandCallingArgs args)
         {
-            var playerName = args[0] as string;
-            var newValue = (float)args[1];
+            var playerName = args[1] as string;
+            var newValue = (float)args[0];
 
             if (1e-3 < newValue || newValue > 10)
             {
