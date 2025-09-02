@@ -1,5 +1,5 @@
 - TODO Refactor code more nicely
 
 - [Fix] Some config settings not saving properly
-- [Debug] Add command /nc setCapacityModifier to modify bladder capacity modifier (mostly used by XSkills skills,
+- [Debug] Add command /nc setCapacityModifier to modify bladder capacity modifier (mostly used by XSkills skills),
 	useful to fix broken values

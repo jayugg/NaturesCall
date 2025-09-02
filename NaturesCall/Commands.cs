@@ -21,19 +21,27 @@ public static class Commands
         public static void Register(ICoreServerAPI api)
         {
             api.ChatCommands
-                .Create("resetBladderStats")
+                .Create("naturescall")
+                .WithDescription("Debug commands for Nature's Call.")
+                .WithAlias("nc")
+                .RequiresPrivilege("controlserver")
+                .BeginSubCommand("resetBladderStats")
                 .WithDescription("Resets the player's stat modifiers from bladder.")
-                .RequiresPrivilege("controlserver")
                 .WithArgs(api.ChatCommands.Parsers.OptionalWord("playerName"))
-                .HandleWith((args) => OnResetStatsCommand(api, args));
-
-            api.ChatCommands
-                .Create("setBladder")
+                .HandleWith((args) => OnResetStatsCommand(api, args))
+                .EndSubCommand()
+                .BeginSubCommand("setBladder")
                 .WithDescription("Sets the player's bladder level.")
-                .RequiresPrivilege("controlserver")
                 .WithArgs(api.ChatCommands.Parsers.OptionalWord("playerName"),
-                    api.ChatCommands.Parsers.Float("bladderValue"))
-                .HandleWith((args) => OnSetBladderCommand(api, args));
+                    api.ChatCommands.Parsers.Float("value"))
+                .HandleWith((args) => OnSetBladderCommand(api, args))
+                .EndSubCommand()
+                .BeginSubCommand("setCapacityModifier")
+                .WithDescription("Sets the player's bladder capacity modifier (alteration to max bladder).")
+                .WithArgs(api.ChatCommands.Parsers.OptionalWord("playerName"),
+                    api.ChatCommands.Parsers.Float("value"))
+                .HandleWith((args) => OnSetCapacityModifierCommand(api, args))
+                .EndSubCommand();
         }
 
         private static TextCommandResult OnSetPeeModeCommand(ICoreClientAPI api, TextCommandCallingArgs args)
@@ -65,8 +73,8 @@ public static class Commands
                 }
             }
 
-            ResetModBoosts(targetPlayer?.Entity as EntityPlayer);
-            return TextCommandResult.Success($"Thirst stats reset for player '{targetPlayer?.PlayerName}'.");
+            ResetModBoosts(targetPlayer?.Entity);
+            return TextCommandResult.Success($"Bladder stats reset for player '{targetPlayer?.PlayerName}'.");
         }
 
         private static IServerPlayer GetPlayerByName(ICoreServerAPI api, string playerName)
@@ -110,6 +118,38 @@ public static class Commands
             bladderBehavior.CurrentLevel = newLevel;
 
             return TextCommandResult.Success($"Bladder set to {bladderBehavior.CurrentLevel} for player '{targetPlayer.PlayerName}'.");
+        }
+        
+        private static TextCommandResult OnSetCapacityModifierCommand(ICoreServerAPI api, TextCommandCallingArgs args)
+        {
+            var playerName = args[0] as string;
+            var newValue = (float)args[1];
+
+            if (1e-3 < newValue || newValue > 10)
+            {
+                return TextCommandResult.Error($"This is a multiplier, please select a reasonable value in the range (0.1, 10).");
+            }
+
+            IServerPlayer targetPlayer;
+
+            if (string.IsNullOrEmpty(playerName))
+            {
+                targetPlayer = args.Caller.Player as IServerPlayer;
+            }
+            else
+            {
+                targetPlayer = GetPlayerByName(api, playerName);
+                if (targetPlayer == null)
+                {
+                    return TextCommandResult.Error($"Player '{playerName}' not found.");
+                }
+            }
+
+            var bladderBehavior = targetPlayer?.Entity.GetBehavior<EntityBehaviorBladder>();
+            if (bladderBehavior == null) return TextCommandResult.Error("Bladder behavior not found.");
+
+            bladderBehavior.CapacityModifier = newValue;
+            return TextCommandResult.Success($"Capacity modifier set to {bladderBehavior.CapacityModifier} for player '{targetPlayer.PlayerName}'.");
         }
         
         public static void ResetModBoosts(EntityPlayer player)
