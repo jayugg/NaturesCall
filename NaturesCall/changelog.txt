@@ -1,3 +1,5 @@
 - TODO Refactor code more nicely
 
-- [Tweak] Config setting to only urinate using hotkey (disable right mouse click)
+- [Fix] Some config settings not saving properly
+- [Debug] Add command /nc setCapacityModifier to modify bladder capacity modifier (mostly used by XSkills skills,
+	useful to fix broken values

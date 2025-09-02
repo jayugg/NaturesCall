@@ -25,7 +25,7 @@
   "Config.Setting.BladderBarX": "Compensación X de Barra de Vejiga",
   "Config.Setting.BladderBarY": "Compensación Y de Barra de Vejiga",
   "Config.Setting.PeeMode": "¿Orinas de Pie o Sentado?",
-  "Config.Setting.HideBladderBarAt": "Ocultar la Barra de la Vejiga por debajo de este porcentaje",
+  "Config.Setting.HideBladderBarAt": "Ocultar la Barra de la Vejiga por debajo de este valor",
   "Config.Setting.BladderBarColor": "Color de la Barra de la Vejiga",
   "Config.Setting.BladderBarOverloadColor": "Color de Sobrecarga en la Barra de la Vejiga",
   "Config.Setting.UrineColor": "Color de la Orina",

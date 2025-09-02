@@ -37,8 +37,8 @@ public partial class ConfigLibCompat
     private void BuildSettingsClient(ConfigClient config, string id)
     {
         config.PeeMode = OnInputEnum(id, config.PeeMode, nameof(config.PeeMode));
-        config.BladderBarX = OnInputFloat(id, config.BladderBarX, nameof(config.BladderBarX), -float.MaxValue);
-        config.BladderBarY = OnInputFloat(id, config.BladderBarY, nameof(config.BladderBarY), -float.MaxValue);
+        config.BladderBarX = OnInputFloat(id, config.BladderBarX, nameof(config.BladderBarX), float.MinValue);
+        config.BladderBarY = OnInputFloat(id, config.BladderBarY, nameof(config.BladderBarY), float.MinValue);
         config.HideBladderBarAt = OnInputFloat(id, config.HideBladderBarAt, nameof(config.HideBladderBarAt));
         config.BladderBarColor = OnInputHex(id, config.BladderBarColor, nameof(config.BladderBarColor));
         config.BladderBarOverloadColor = OnInputHex(id, config.BladderBarOverloadColor, nameof(config.BladderBarOverloadColor));

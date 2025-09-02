@@ -4,7 +4,7 @@ using Vintagestory.API.Common;
 
 namespace NaturesCall.Config;
 
-public class ConfigServer : IModConfig
+public class ConfigServer : ModConfig
 {
     // Should generally stay between 0.0 and 2.0, very high values may cause issues
     public double BladderFillMultiplier { get; set; } = 1.0;

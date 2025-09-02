@@ -22,7 +22,7 @@
   "Config.Setting.BladderBarX": "Bladder bar x offset",
   "Config.Setting.BladderBarY": "Bladder bar y offset",
   "Config.Setting.PeeMode": "Sitting or Standing?",
-  "Config.Setting.HideBladderBarAt": "Hide bladder bar when below this percentage",
+  "Config.Setting.HideBladderBarAt": "Hide bladder when below this value",
   "Config.Setting.BladderBarColor": "Bladder bar color",
   "Config.Setting.BladderBarOverloadColor": "Bladder bar overload color",
   "Config.Setting.UrineColor": "Urine color",

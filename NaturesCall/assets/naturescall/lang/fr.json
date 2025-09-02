@@ -22,7 +22,7 @@
   "Config.Setting.BladderBarX": "Décalage x de la barre de vessie",
   "Config.Setting.BladderBarY": "Décalage y de la barre de vessie",
   "Config.Setting.PeeMode": "Assis ou debout ?",
-  "Config.Setting.HideBladderBarAt": "Cacher la barre de vessie en dessous de ce pourcentage",
+  "Config.Setting.HideBladderBarAt": "Cacher la barre de vessie en dessous de ce valeur",
   "Config.Setting.BladderBarColor": "Couleur de la barre de vessie",
   "Config.Setting.BladderBarOverloadColor": "Couleur de surcharge de la barre de vessie",
   "Config.Setting.UrineColor": "Couleur de l'urine",

@@ -41,33 +41,21 @@ public partial class ConfigLibCompat
     {
         var newValue = value;
         ImGui.InputInt(Lang.Get(settingPrefix + name) + $"##{name}-{id}", ref newValue, step: 1, step_fast: 10);
-        return newValue < minValue ? minValue : newValue;
+        return Math.Max(minValue, newValue);
     }
 
-    private static float OnInputFloat(string id, float value, string name, float minValue = 0, float? maxValue = null)
+    private static float OnInputFloat(string id, float value, string name, float minValue = 0)
     {
         var newValue = value;
         ImGui.InputFloat(Lang.Get(settingPrefix + name) + $"##{name}-{id}", ref newValue, step: 0.01f, step_fast: 1.0f);
-        // Guard against NaN or infinite inputs
-        if (float.IsNaN(newValue) || float.IsInfinity(newValue))
-            newValue = minValue;
-        // Clamp to [minValue, maxValue]
-        if (newValue < minValue) newValue = minValue;
-        if (newValue > maxValue) newValue = maxValue.Value;
-        return newValue;
+        return MathF.Max(minValue, newValue);
     }
      
-    private static double OnInputDouble(string id, double value, string name, double minValue = 0, double? maxValue = null)
+    private static double OnInputDouble(string id, double value, string name, double minValue = 0)
     {
         var newValue = value;
         ImGui.InputDouble(Lang.Get(settingPrefix + name) + $"##{name}-{id}", ref newValue, step: 0.01f, step_fast: 1.0f);
-         // Guard against NaN or infinite inputs
-        if (double.IsNaN(newValue) || double.IsInfinity(newValue))
-            newValue = minValue;
-        // Clamp to [minValue, maxValue]
-        if (newValue < minValue) newValue = minValue;
-        if (newValue > maxValue) newValue = maxValue.Value;
-        return newValue;
+        return Math.Max(minValue, newValue);
     }
 
     private static string OnInputText(string id, string value, string name)
