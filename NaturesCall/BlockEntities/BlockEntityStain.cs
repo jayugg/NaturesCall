@@ -1,3 +1,4 @@
+using NaturesCall.HarmonyPatches;
 using Vintagestory.API.Client;
 using Vintagestory.API.Common;
 
@@ -22,8 +23,7 @@ public class BlockEntityStain : BlockEntity
         var shouldDie = Api.World.BlockAccessor.GetBlock(Pos.UpCopy()).BlockMaterial == EnumBlockMaterial.Liquid ||
                         Api.World.BlockAccessor.GetDistanceToRainFall(Pos, 2) < 2;
         if (shouldDie)
-            Api.World.BlockAccessor.SetBlock(0, Pos);
-        Block.OnBlockRemoved(Api.World, Pos);
+            Api.World.BlockAccessor.BreakDecor(Pos);
     }
 
     protected void Init()

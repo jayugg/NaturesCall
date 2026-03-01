@@ -14,7 +14,8 @@ public class ConfigClient : ModConfig
     public float BladderBarY { get; set; }
     public string UrineColor { get; set; } = "default";
     public bool OnlyPeeWithHotkey { get; set; }
-    
+    public float UrineParticleLifetime { get; set; } = 15f;
+
     public ConfigClient(ICoreAPI api, ConfigClient previousConfig = null)
     {
         if (previousConfig == null)

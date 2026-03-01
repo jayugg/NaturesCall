@@ -27,6 +27,7 @@
   "Config.Setting.BladderBarOverloadColor": "Bladder bar overload color",
   "Config.Setting.UrineColor": "Urine color",
   "Config.Setting.OnlyPeeWithHotkey": "Urinate only when pressing hotkey (no right click)",
+  "Config.Setting.UrineParticleLifetime": "Lifetime of urine particles (only works with Urine Stains disabled on the server)",
 
   "Config.SettingsCompat": "Compatibility Settings (Require restart)",
   "Config.Setting.ElephantBladderCapacityMultiplier": "Elephant Bladder skill hydration boost (xSkills)",

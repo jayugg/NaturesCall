@@ -8,3 +8,4 @@ riderModule.iml
 Releases/**/*
 *.dll
 *.user
+/test

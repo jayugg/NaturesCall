@@ -13,7 +13,7 @@ public class ConfigServer : ModConfig
     public float BladderWalkSpeedDebuff { get; set; } = 0.5f;
     public float UrineNutrientChance { get; set; } = 0.1f;
     public float UrineDrainRate { get; set; } = 3f;
-    public bool UrineStains { get; set; } = true;
+    public bool UrineStains { get; set; } = false;
     public bool SpillWashStains { get; set; } = true;
     
     // Advanced settings

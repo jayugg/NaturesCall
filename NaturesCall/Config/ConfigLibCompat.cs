@@ -44,6 +44,7 @@ public partial class ConfigLibCompat
         config.BladderBarOverloadColor = OnInputHex(id, config.BladderBarOverloadColor, nameof(config.BladderBarOverloadColor));
         config.UrineColor = OnInputText(id, config.UrineColor, nameof(config.UrineColor));
         config.OnlyPeeWithHotkey = OnCheckBox(id, config.OnlyPeeWithHotkey, nameof(config.OnlyPeeWithHotkey));
+        config.UrineParticleLifetime = OnInputFloat(id, config.UrineParticleLifetime, nameof(config.UrineParticleLifetime), 1f);
     }
 
     private void EditConfigServer(string id, ControlButtons buttons, ICoreAPI api)

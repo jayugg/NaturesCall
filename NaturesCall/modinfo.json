@@ -1,13 +1,15 @@
 {
-    "type": "code",
-    "modid": "naturescall",
-    "name": "Nature's Call",
-    "authors": [
-        "jayu"
-    ],
-    "description": "Nature calls, and you must answer.",
-    "version": "1.3.4",
-    "dependencies": {
-        "game": ""
-    }
+  "$schema": "https://moddbcdn.vintagestory.at/schema/modinfo.latest.json",
+  "type": "Code",
+  "modid": "naturescall",
+  "name": "Nature's Call",
+  "side": "Universal",
+  "requiredOnClient": true,
+  "requiredOnServer": true,
+  "authors": [ "jayu" ],
+  "description": "Nature calls, and you must answer.",
+  "version": "1.3.6",
+  "dependencies": {
+      "game": ""
+  }
 }

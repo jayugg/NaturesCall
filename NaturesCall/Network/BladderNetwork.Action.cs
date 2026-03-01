@@ -21,7 +21,11 @@ public partial class BladderNetwork
     private void OnServerPeeMessage(PeeMessage.Response response)
     {
         var entity = _capi.World.Player.Entity;
-        SpawnPeeParticles(entity, response.Position, entity.BlockSelection?.HitPosition, ConfigSystem.ConfigClient.UrineColor == "default" ? null : ConfigSystem.ConfigClient.UrineColor);
+        SpawnPeeParticles(entity, response.Position,
+            entity.BlockSelection?.HitPosition,
+            ConfigSystem.ConfigClient.UrineColor == "default" ? null : ConfigSystem.ConfigClient.UrineColor,
+            response.ShouldDieOnContact,
+            ConfigSystem.ConfigClient.UrineParticleLifetime);
         EntityBehaviorBladder.PlayPeeSound(entity);
     }
     
@@ -108,10 +112,12 @@ public partial class BladderNetwork
         var drainAmount = ConfigSystem.ConfigServer.UrineDrainRate * urinationDs * 4;
         if (!(bh?.Drain(drainAmount) ?? false)) return;
         EntityBehaviorBladder.PlayPeeSound(player.Entity);
-        SpawnPeeParticles(player.Entity, request.Position, player.CurrentBlockSelection?.HitPosition, request.Color);
+        var blockSelection = player.CurrentBlockSelection;
         var world = player.Entity.World;
-        var block = world.BlockAccessor.GetBlock(request.Position);
-        _serverChannel.SendPacket(new PeeMessage.Response() { Position = request.Position }, player);
+        var block = world.BlockAccessor.GetBlock(blockSelection.Position);
+        var sideIsSolid = block.SideIsSolid(blockSelection.Position, blockSelection.SelectionBoxIndex);
+        var shouldDieOnContact = ConfigSystem.ConfigServer.UrineStains && !sideIsSolid;
+        _serverChannel.SendPacket(new PeeMessage.Response() { Position = blockSelection.Position, ShouldDieOnContact = shouldDieOnContact}, player);
         if (block is BlockLiquidContainerBase container)
         {
             var waterStack = new ItemStack(world.GetItem(Core.ModId+":urineportion"))
@@ -123,43 +129,42 @@ public partial class BladderNetwork
             var totalLiters = desiredLiters + storedLitres;
             var virtualLiters = totalLiters % 0.01f;
             var physicalLiters = totalLiters - virtualLiters;
-            var stackSizeIn = container.TryPutLiquid(request.Position, waterStack, physicalLiters);
+            var stackSizeIn = container.TryPutLiquid(blockSelection.Position, waterStack, physicalLiters);
             container.DoLiquidMovedEffects(player, waterStack, stackSizeIn, BlockLiquidContainerBase.EnumLiquidDirection.Fill);
         } else if (block is BlockFarmland)
         {
-            FertiliseFarmland(world, request.Position);
+            FertiliseFarmland(world, blockSelection.Position);
         } 
-        else if (world.BlockAccessor.GetBlock(request.Position.DownCopy()) is BlockFarmland)
+        else if (world.BlockAccessor.GetBlock(blockSelection.Position.DownCopy()) is BlockFarmland)
         {
-            FertiliseFarmland(world, request.Position.DownCopy());
+            FertiliseFarmland(world, blockSelection.Position.DownCopy());
         }
-        else if (world.BlockAccessor.GetBlockEntity(request.Position) is IFarmlandBlockEntity)
+        else if (world.BlockAccessor.GetBlockEntity(blockSelection.Position) is IFarmlandBlockEntity)
         {
-            FertiliseIFarmland(world, request.Position);
+            FertiliseIFarmland(world, blockSelection.Position);
         }
-        else if (world.BlockAccessor.GetBlockEntity(request.Position.DownCopy()) is IFarmlandBlockEntity)
+        else if (world.BlockAccessor.GetBlockEntity(blockSelection.Position.DownCopy()) is IFarmlandBlockEntity)
         {
-            FertiliseIFarmland(world, request.Position.DownCopy());
+            FertiliseIFarmland(world, blockSelection.Position.DownCopy());
         }
         else if (block is BlockToolMold)
         {
-            var be = world.BlockAccessor.GetBlockEntity(request.Position) as BlockEntityToolMold; 
+            var be = world.BlockAccessor.GetBlockEntity(blockSelection.Position) as BlockEntityToolMold; 
             be?.CoolWithWater();
         }
         else if (block is BlockIngotMold)
         {
-            var be = world.BlockAccessor.GetBlockEntity(request.Position) as BlockEntityIngotMold; 
+            var be = world.BlockAccessor.GetBlockEntity(blockSelection.Position) as BlockEntityIngotMold; 
             be?.CoolWithWater();
         }
-        if (!ConfigSystem.ConfigServer.UrineStains || player.CurrentBlockSelection == null) return;
-        if (!player.CurrentBlockSelection.Block.SideIsSolid(player.CurrentBlockSelection.Position, player.CurrentBlockSelection.Face.Index)) return;
+        if (!ConfigSystem.ConfigServer.UrineStains) return;
         var rand = world.Rand.Next(0, 24);
         var x = rand % 6 + 1;
         var y = rand / 6 + 1;
         var stain = world.GetBlock(new AssetLocation(Core.ModId, $"caveart-stain-urine-1-{x}-{y}"));
-        if (SuitableStainPosition(world.BlockAccessor, player.CurrentBlockSelection))
-            world.BlockAccessor.SetDecor(stain, request.Position,
-                player.CurrentBlockSelection.ToDecorIndex());
+        if (SuitableStainPosition(world.BlockAccessor, blockSelection))
+            world.BlockAccessor.SetDecor(stain, blockSelection.Position,
+                blockSelection.ToDecorIndex());
     }
 
     private static void FertiliseIFarmland(IWorldAccessor world, BlockPos position)
@@ -196,7 +201,7 @@ public partial class BladderNetwork
         }
     }
 
-    private static void SpawnPeeParticles(Entity byEntity, BlockPos pos, Vec3d hitPos, string color = null)
+    private static void SpawnPeeParticles(Entity byEntity, BlockPos pos, Vec3d hitPos, string color = null, bool shouldDieOnContact = true, float particleLifetime = 1f)
     {
         if (hitPos == null || pos == null) return;
         var entityPos = byEntity.Pos.XYZ.AddCopy(byEntity.LocalEyePos.SubCopy(0, 0.2, 0));
@@ -206,7 +211,7 @@ public partial class BladderNetwork
         var velocity = 2.5f * dist.ToVec3f().AddCopy(addVertical).Normalize();
         var xyz = entityPos.AddCopy(0.5 * dist.Normalize());
         var one = new Vec3f(1, 1, 1);
-
+        
         _waterParticles = new SimpleParticleProperties(1f, 1f, -1, xyz, new Vec3d(), velocity.AddCopy(0.2f*one), velocity.AddCopy(-0.2f*one), minSize: 0.33f, maxSize: 0.75f)
         {
             AddPos = new Vec3d(),
@@ -216,7 +221,9 @@ public partial class BladderNetwork
             GravityEffect = 0.6f,
             ShouldDieInLiquid = true,
             Bounciness = 0,
-            WithTerrainCollision = false
+            LifeLength = particleLifetime,
+            WithTerrainCollision = !shouldDieOnContact,
+            WindAffected = true
         };
         
         if (color != null)

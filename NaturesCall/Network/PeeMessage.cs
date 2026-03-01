@@ -23,5 +23,7 @@ public class PeeMessage
     {
         [ProtoMember(1)]
         public BlockPos Position;
+        [ProtoMember(2)]
+        public bool ShouldDieOnContact;
     }
 }

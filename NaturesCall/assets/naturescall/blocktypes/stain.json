@@ -14,9 +14,9 @@
   "renderpass": "Transparent",
   "variantgroups": [
     { "code": "material", "states": ["urine" ] },
-    { code: "set", states: ["1"] },
-    { code: "col", states: ["1","2","3","4","5","6"] },
-    { code: "row", states: ["1","2","3","4","5","6"] }
+    { "code": "set", "states": ["1"] },
+    { "code": "col", "states": ["1","2","3","4","5","6"] },
+    { "code": "row", "states": ["1","2","3","4","5","6"] }
   ],
   "drawtype": "surfacelayer",
   "doNotRenderAtLod2": true,
