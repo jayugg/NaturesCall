@@ -1,3 +1,0 @@
-- TODO Refactor code more nicely
-
-- [Fix] Better debug command hints
